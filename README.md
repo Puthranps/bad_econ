@@ -2,6 +2,33 @@
 
 A spatial industrial economy with 16 goods, supply chains, and research-driven production methods, for up to one million households and 10,000 generated firms. Burn/CubeCL runs the same Rust kernels on WGPU and CPU; Bevy provides an optional viewer. The Rust toolchain and dependencies are pinned.
 
+## Live society sandbox
+
+The Puthranps fork includes a live, spatial agent sandbox inspired by cellular automata. Open the native game with:
+
+```powershell
+cargo run --features viewer -- life
+```
+
+Each square holds at most one agent and a local food stock. Agents affect their eight immediate neighbors; the edges wrap. Cooperators invest in local production, exploiters take more, and conditional agents respond to their neighbors' previous behavior. Energy supports survival and reproduction. Offspring occupy adjacent empty cells, inherit a strategy with occasional mutation, and receive energy from their parent. Starvation and aging leave space for later generations. Agents stay in their cells; growth spreads through births.
+
+Pause, step, paint agents or food, and change the rules while the simulation runs. Space toggles playback; N steps; R resets the current seed and rules; C starts the next seed; S changes speed; G switches the map; L opens the learning panel. Brushes 1–5 paint cooperators, exploiters, conditional agents, food or empty space; brackets change the radius. Hover over a cell to inspect its identity, parent, age and energy. The toolbar and rule controls also accept clicks.
+
+The map shows the current GPU state. Resetting the same seed repeats the same starting conditions, so you can compare interventions. There is no scheduled collapse or victory condition. This is a toy ecological economy with explicit rules, rather than a demographic forecast or Conway's original birth/survival rule.
+
+Each tick regrows and harvests food, then resolves contributions and exploitation from one shared snapshot. A contribution produces twice its energy cost for adjacent living agents. Exploiters take a bounded amount from cooperating neighbors and pay an extra unit of metabolism when exploitation is enabled. Conditional agents cooperate when at least half their living neighbors cooperated on the previous tick. Integer remainders rotate among recipients. After consumption, an eligible parent may fund one neighboring birth; competing parents resolve claims deterministically. Each GPU tick checks food, energy and population accounts before publishing. Painting is an external intervention that adds or removes resources and agents.
+
+The learning panel connects an experiment to [Federico, Balakrishna and Janssen's 2025 study of conditional cooperation](https://doi.org/10.1371/journal.pcsy.0000040). Their model finds that local interaction and conditional contributions can sustain cooperation and clustering. Try placing exploiters within a cooperative patch and changing the cooperation benefit. Predict what will happen before running it. Our resource stocks, births and deaths differ from the paper's fully occupied lattice and strategy imitation, so this is an exploration inspired by the research, not a replication.
+
+For reproducible GPU runs without a window:
+
+```powershell
+cargo run -- life-run --width 96 --height 64 --density 35 --seed 42 --days 1000 --output target/life/run.json
+cargo run --features viewer -- life-check
+```
+
+`life-run` records the starting configuration, initial and final grids, every tick's totals, GPU name and elapsed time. The `scenario` object can be saved separately and loaded with `--scenario PATH` in either mode. `life-check` exercises the native viewer and captures its rendered frame. The live domain, GPU kernels, and viewer are separate modules; the industrial ledger and the older recorded society experiment remain available below.
+
 ## Run
 
 ```sh

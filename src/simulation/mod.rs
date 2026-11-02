@@ -5,6 +5,7 @@ pub mod finance;
 mod flags;
 pub mod households;
 mod layout;
+pub mod life;
 mod memory;
 pub mod negotiation;
 mod ops;

@@ -10,6 +10,7 @@ pub mod bargaining;
 pub mod finance;
 mod households;
 pub mod industry;
+pub mod life;
 mod payroll;
 pub mod research;
 pub mod society;

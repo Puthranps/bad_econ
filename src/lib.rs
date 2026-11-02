@@ -1,6 +1,8 @@
 pub mod arithmetic;
 pub mod domain;
 pub mod ledger;
+#[cfg(feature = "viewer")]
+pub mod life_viewer;
 pub mod runtime;
 #[cfg(feature = "compute")]
 pub mod simulation;

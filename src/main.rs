@@ -16,6 +16,16 @@ struct Cli {
     households: u32,
     #[arg(long, default_value_t = 128, help = "Starting people in society mode")]
     agents: u32,
+    #[arg(long, default_value_t = 96, help = "Grid width in life modes")]
+    width: u32,
+    #[arg(long, default_value_t = 64, help = "Grid height in life modes")]
+    height: u32,
+    #[arg(
+        long,
+        default_value_t = 35,
+        help = "Starting occupied percentage in life modes"
+    )]
+    density: u32,
     #[arg(long, default_value_t = 42)]
     seed: u64,
     #[arg(long, value_enum, default_value_t = ExperimentArg::Baseline)]
@@ -55,6 +65,9 @@ enum Mode {
     ViewCheck,
     Analyze,
     Society,
+    Life,
+    LifeRun,
+    LifeCheck,
 }
 #[derive(Clone, Copy, ValueEnum)]
 enum Backend {
@@ -108,7 +121,80 @@ fn main() -> Result<()> {
         Mode::View | Mode::ViewCheck => view(scenario(&args)?, args.workgroup, args.mode),
         Mode::Analyze => analyze(&args),
         Mode::Society => society(&args),
+        Mode::Life | Mode::LifeCheck => life_view(&args),
+        Mode::LifeRun => life_run(&args),
     }
+}
+fn life_scenario(args: &Cli) -> Result<bad_econ::domain::life::LifeScenario> {
+    use bad_econ::domain::life::{LifeConfig, LifeScenario};
+    match (&args.restore, &args.checkpoint, args.backend) {
+        (None, None, Backend::Gpu) => Ok(()),
+        _ => Err(anyhow!("life modes use the GPU and seeded resets")),
+    }?;
+    match &args.scenario {
+        Some(path) => serde_json::from_slice(&std::fs::read(path)?).map_err(Into::into),
+        None => LifeScenario::new(LifeConfig {
+            width: args.width,
+            height: args.height,
+            seed: args.seed,
+            density_percent: args.density,
+            ..LifeConfig::default()
+        }),
+    }
+}
+#[cfg(feature = "viewer")]
+fn life_view(args: &Cli) -> Result<()> {
+    use bad_econ::life_viewer::{self, ViewMode};
+    let mode = match args.mode {
+        Mode::LifeCheck => ViewMode::Verify,
+        _ => ViewMode::Interactive,
+    };
+    life_viewer::run(life_scenario(args)?, args.workgroup, mode)
+}
+#[cfg(not(feature = "viewer"))]
+fn life_view(_: &Cli) -> Result<()> {
+    Err(anyhow!(
+        "build with --features viewer to open the live grid"
+    ))
+}
+#[cfg(feature = "compute")]
+fn life_run(args: &Cli) -> Result<()> {
+    use bad_econ::simulation::{Device, life::LifeSimulation};
+    match (1..=100_000).contains(&args.days) {
+        true => Ok(()),
+        false => Err(anyhow!("life-run requires 1..=100000 ticks via --days")),
+    }?;
+    let scenario = life_scenario(args)?;
+    let device = Device::headless(args.workgroup)?;
+    let device_name = device.name.clone();
+    let mut simulation = LifeSimulation::new(scenario.clone(), device)?;
+    let initial = simulation.snapshot();
+    let mut history = Vec::with_capacity(args.days as usize);
+    let start = Instant::now();
+    for _ in 0..args.days {
+        let frame = simulation.advance()?;
+        history.push(frame.summary);
+    }
+    let seconds = start.elapsed().as_secs_f64();
+    output(
+        &args.output,
+        &serde_json::json!({
+            "model": "bad-econ/life/v1",
+            "device": device_name,
+            "workgroup": args.workgroup,
+            "scenario": scenario,
+            "ticks": args.days,
+            "seconds": seconds,
+            "ticks_per_second": f64::from(args.days) / seconds,
+            "initial": initial,
+            "history": history,
+            "final": simulation.snapshot(),
+        }),
+    )
+}
+#[cfg(not(feature = "compute"))]
+fn life_run(_: &Cli) -> Result<()> {
+    Err(anyhow!("build with the compute feature"))
 }
 #[cfg(feature = "compute")]
 fn society(args: &Cli) -> Result<()> {
