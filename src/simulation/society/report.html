@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Society lab · A day in the neighborhood</title>
+<style>
+:root{color-scheme:light;--paper:#f5f3eb;--panel:#fffef8;--ink:#192f2d;--muted:#60726c;--line:#d9dfd3;--green:#28866b;--gold:#c28b25;--blue:#4779b8;--red:#bd4d41;--violet:#8667ad;--empty:#e0e4da;--shadow:0 8px 28px #203b2c08;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink)}
+button,input,select{font:inherit}
+button,select{cursor:pointer}
+button{color:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+button:disabled{cursor:default;opacity:.42}
+button{touch-action:manipulation}
+header,main,footer{max-width:1440px;margin:auto;padding:24px 32px}
+header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:12px}
+.brand{font:700 11px ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;color:var(--green)}
+h1{font-size:clamp(25px,3vw,37px);font-weight:620;letter-spacing:-1.4px;margin:8px 0}
+p{line-height:1.5}
+.subtitle{font-size:14px;color:var(--muted);margin:0}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:30px;padding:9px 13px;font-size:12px;white-space:nowrap;background:var(--panel)}
+.badge:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+main{padding-top:14px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px 20px;box-shadow:var(--shadow)}
+.label{font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:650;color:var(--muted)}
+.value{font-size:32px;line-height:1.25;font-weight:650;letter-spacing:-1px;margin:5px 0}
+.metric small{font-size:12px;color:var(--muted)}
+.controls{display:flex;align-items:center;gap:12px;margin:18px 0;flex-wrap:wrap}
+.button{border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:9px 12px;font-size:13px;font-weight:600}
+.primary{background:var(--ink);color:#fffef8;border-color:var(--ink);min-width:84px}
+.day-label{min-width:85px;font-size:14px;font-weight:650}
+input[type=range]{accent-color:var(--green);min-width:160px;flex:1;height:26px}
+select{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px}
+.content{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.panel-head{padding:18px 20px 12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+h2{font-size:15px;margin:0;letter-spacing:-.2px}
+.subhead{font-size:12px;color:var(--muted);margin:5px 0 0}
+.map-settings{display:flex;gap:8px;align-items:center}
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(144px,1fr));gap:14px;padding:16px 20px 22px;max-height:560px;overflow:auto;background:linear-gradient(90deg,#d9dfd326 1px,transparent 1px),linear-gradient(#d9dfd326 1px,transparent 1px),#eef1e7;background-size:24px 24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.neighborhood{border:1px solid #cbd7c6;border-radius:12px;background:#fcfdf6e8;padding:10px;min-width:0}
+.neighborhood-head{display:flex;justify-content:space-between;gap:4px;font-size:10px;color:var(--muted);font-weight:650;margin-bottom:9px}
+.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.agent{position:relative;aspect-ratio:1;border:1px solid #00000010;border-radius:9px;padding:0;min-height:27px;display:flex;align-items:center;justify-content:center;background:var(--empty);color:#fff;font-size:12px;font-weight:750;font-family:ui-monospace,monospace;transition:box-shadow .12s,transform .12s}
+.agent:hover{transform:translateY(-2px);box-shadow:0 3px 6px #183b3424}
+.agent.selected{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--ink)}
+.agent.hungry:after{content:"!";position:absolute;right:-3px;top:-4px;font:800 10px ui-monospace,monospace;border-radius:50%;width:14px;height:14px;background:var(--red);color:white;border:1px solid var(--panel)}
+.agent.vacant{background:repeating-linear-gradient(135deg,#e8ece2,#e8ece2 4px,#f3f5ed 4px,#f3f5ed 8px);color:#8b9b91;border-style:dashed;opacity:1}
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:13px 20px;font-size:11px;color:var(--muted)}
+.key{display:flex;align-items:center;gap:6px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--empty)}
+.detail{padding:0 20px 20px}
+.agent-name{font-size:25px;font-weight:650;letter-spacing:-.7px;margin:0 0 4px}
+.pill{font-size:11px;display:inline-block;border-radius:5px;background:#eaf0e6;padding:4px 7px;margin:4px 4px 4px 0}
+.detail dl{display:grid;grid-template-columns:1fr auto;gap:11px 10px;font-size:12px;margin:18px 0}
+.detail dt{color:var(--muted)}
+.detail dd{margin:0;font-weight:650;text-align:right}
+.note{padding:11px 12px;background:#f2f1e6;border-radius:9px;font-size:12px;color:#5a665d;line-height:1.55}
+.events{padding:0;margin:16px 0 0;list-style:none;font-size:12px}
+.events li{border-top:1px solid var(--line);padding:10px 0;line-height:1.45}
+.events small{display:block;color:var(--muted);margin-top:3px}
+.chart-panel{margin-top:18px}
+.chart{width:100%;display:block;min-height:150px}
+.chart text{font:10px ui-monospace,monospace;fill:var(--muted)}
+.chart-legend{padding-top:0}
+.chart-key{background:none;border:0;color:var(--muted);padding:0;font-size:11px}
+.day-story{font-size:12px;color:var(--muted);margin-top:13px;min-height:20px}
+details{border-top:1px solid var(--line);padding-top:18px;margin-top:24px;font-size:13px;color:var(--muted)}
+summary{cursor:pointer;font-weight:650;color:var(--ink)}
+details p{max-width:900px}
+.learn{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px 20px}
+.learn-intro{font-size:13px;line-height:1.6;margin:15px 0}
+.lessons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.lesson{border:1px solid var(--line);border-radius:11px;padding:17px;background:#fafbf5;color:var(--ink)}
+.lesson h3{font-size:17px;letter-spacing:-.3px;margin:8px 0 12px}
+.lesson p{font-size:12px;line-height:1.6;margin:10px 0}
+.lesson a{color:#246b59;text-decoration-thickness:1px;text-underline-offset:2px}
+.lesson .source{font-size:11px;color:var(--muted)}
+.lesson .limit{border-top:1px solid var(--line);padding-top:10px;color:var(--muted)}
+.lesson .downloads{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 8px}
+.lesson .button{font-size:11px;padding:7px 9px;text-align:left}
+.lesson .prediction{border-left:3px solid var(--green);padding:1px 0 1px 10px;margin:13px 0}
+.lesson .context{font-size:11px;color:var(--muted)}
+.learn-how{margin-top:17px;font-size:12px}
+.learn-how pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#edf1e7;color:var(--ink);padding:12px;border-radius:8px;font-size:12px;line-height:1.6}
+.download-status{font-size:12px;color:var(--green);min-height:18px;margin:12px 0 0}
+@media(max-width:980px){.lessons{grid-template-columns:1fr}.lesson .downloads{margin-bottom:0}}
+footer{padding-top:0;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:12px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:980px){.content{grid-template-columns:minmax(0,1fr) 285px}
+header,main,footer{padding-left:20px;padding-right:20px}
+.metric{padding:14px}
+.map{padding:14px;gap:10px}
+}
+@media(max-width:760px){.content{grid-template-columns:1fr}
+.metrics{grid-template-columns:repeat(2,1fr)}
+header{align-items:flex-start}
+.badge{display:none}
+.controls{gap:8px}
+.controls input{order:6;flex-basis:100%}
+.map{max-height:430px}
+.panel-head{flex-wrap:wrap}
+.value{font-size:29px}
+.detail dl{grid-template-columns:1fr auto 1fr auto}
+.map-settings{flex-wrap:wrap}
+footer{flex-direction:column}
+.detail .note{margin-top:8px}
+}
+@media(prefers-reduced-motion:reduce){.agent{transition:none}
+.agent:hover{transform:none}
+}
+
+</style>
+</head>
+<body>
+<header><div><div class="brand">Society lab / local economies</div><h1>A day in the neighborhood.</h1><p class="subtitle">Follow the choices, resources, and people that keep a community going.</p></div><span class="badge">Recorded experiment · works offline</span></header>
+<main>
+<section class="metrics" aria-label="Selected day summary">
+<div class="metric"><div class="label">Population</div><div class="value" id="population">—</div><small id="population-note"></small></div>
+<div class="metric"><div class="label">Food shortages</div><div class="value" id="shortages">—</div><small>People below their daily need</small></div>
+<div class="metric"><div class="label">Cooperation</div><div class="value" id="cooperation">—</div><small id="cooperation-note"></small></div>
+<div class="metric"><div class="label">Employment</div><div class="value" id="employment">—</div><small id="employment-note"></small></div>
+</section>
+<div class="controls"><button class="button primary" id="play" aria-label="Play recorded days">▶ Play</button><button class="button" id="previous" aria-label="Previous day">←</button><button class="button" id="next" aria-label="Next day">→</button><label class="day-label" for="day" id="day-label">Day 1</label><input type="range" id="day" min="0" max="0" value="0" aria-label="Simulation day"><label class="sr-only" for="speed">Playback speed</label><select id="speed"><option value="600">Slow</option><option value="250" selected>Normal</option><option value="100">Fast</option></select></div>
+<div class="content">
+<section class="panel" aria-label="Society map"><div class="panel-head"><div><h2>The neighborhood map</h2><p class="subhead">Select a person to see their day. Blocks show local membership.</p></div><div class="map-settings"><label class="sr-only" for="map-mode">Map colors</label><select id="map-mode"><option value="activity">Color: activity</option><option value="life">Color: life stage</option><option value="food">Color: food security</option></select><label class="sr-only" for="neighborhood">Neighborhood</label><select id="neighborhood"><option value="all">All neighborhoods</option></select></div></div><div class="map" id="map"></div><div class="legend" id="map-legend" aria-label="Map legend"></div></section>
+<aside class="panel" aria-label="Agent inspection"><div class="panel-head"><h2>A closer look</h2><span class="label" id="selected-day"></span></div><div class="detail" id="detail"></div></aside>
+</div>
+<div class="day-story" id="day-story" role="status" aria-live="polite"></div>
+<section class="panel chart-panel" aria-label="Population and outcomes over time"><div class="panel-head"><div><h2>How the community changes</h2><p class="subhead">Counts per day. The vertical line marks the day on the map.</p></div></div><svg class="chart" id="chart" viewBox="0 0 1000 180" role="img" aria-label="Population, cooperation, food shortages, births, and deaths over time"></svg><div class="legend chart-legend" id="chart-legend"></div></section>
+<details class="learn"><summary>Learn while you explore · three questions from research</summary>
+<p class="learn-intro">Start with a prediction, run two versions, then inspect a person whose outcome changed. These papers suggest questions to investigate; this small model does not reproduce their experiments. The buttons download new starting scenarios. They do not change this recording.</p>
+<div class="lessons">
+<article class="lesson"><div class="label">01 / Cooperation</div><h3>Following the neighbors</h3>
+<p>A simulation study found that an agent trained to encourage giving increased contributions from agents whose choices depended on past experience. It raises a useful question: can one person’s actions change what others are willing to do?</p>
+<p class="source"><a href="https://arxiv.org/html/2409.09509v1" target="_blank" rel="noopener noreferrer">Kulkarni &amp; Brunswicker (2024), Learning Nudges for Conditional Cooperation</a> · preprint · arXiv:2409.09509.</p>
+<p><strong>Try:</strong> change only the share of cooperating neighbors a Reciprocator needs to see: 25% versus 75%. Follow one Reciprocator across days, alongside the contributors curve.</p>
+<div class="downloads"><button class="button" data-lesson="reciprocity25">Download · 25% threshold</button><button class="button" data-lesson="reciprocity75">Download · 75% threshold</button></div>
+<p class="context" id="lesson-cooperation-context"></p>
+<p class="prediction">Which threshold makes withdrawal spread more easily? What would you expect if there were no Reciprocators?</p>
+<p class="limit">Our agents use a simple threshold, not the paper’s learning algorithms or trained helper. Matching a pattern would not establish how people behave.</p></article>
+<article class="lesson"><div class="label">02 / Trust and rules</div><h3>Remembering versus preventing</h3>
+<p>A mathematical model shows how reputation can encourage people to support institutions, which then make cooperation worthwhile in harder situations. The institution itself needs people’s cooperation to keep working.</p>
+<p class="source"><a href="https://jliep.github.io/files/The%20Social%20Leverage%20Effect.pdf" target="_blank" rel="noopener noreferrer">Lie-Panis, Fitouchi, Baumard &amp; André (2024), The social leverage effect</a> · PNAS · DOI:10.1073/pnas.2408802121.</p>
+<p><strong>Try:</strong> keep the population and resources fixed; compare trust-based trade with escrow, where payment and delivery happen together. Follow food shortages and living population.</p>
+<div class="downloads"><button class="button" data-lesson="trust">Download · Trust</button><button class="button" data-lesson="escrow">Download · Escrow</button></div>
+<p class="prediction">Does preventing a cheating trade change who gets enough food, or is something else limiting survival?</p>
+<p class="limit">Zero cheating under escrow is guaranteed by our rule. The question is its downstream effect. Our escrow is free and automatic; it omits the paper’s problem of maintaining an institution.</p></article>
+<article class="lesson"><div class="label">03 / Work and distribution</div><h3>Who gets the extra output?</h3>
+<p>In an agent-based economic model, productivity and workers’ bargaining power interact to shape income distribution. More output alone does not tell you how gains are divided in that model.</p>
+<p class="source"><a href="https://link.springer.com/article/10.1007/s00191-022-00805-3" target="_blank" rel="noopener noreferrer">Rolim, Baltar &amp; Lima (2023), Income distribution, productivity growth, and workers’ bargaining power</a> · DOI:10.1007/s00191-022-00805-3. <a href="https://www.boeckler.de/pdf/v_2021_10_30_rolim.pdf" target="_blank" rel="noopener noreferrer">Open author conference version (2021)</a>.</p>
+<p><strong>Try:</strong> cross 12 or 18 food per hired worker with posted or negotiated wages. In all four files, the offer starts at 2, the worker’s minimum at 4, and the firm’s limit at 8.</p>
+<div class="downloads"><button class="button" data-lesson="posted12">Download · Posted / 12 food</button><button class="button" data-lesson="posted18">Download · Posted / 18 food</button><button class="button" data-lesson="negotiated12">Download · Negotiated / 12 food</button><button class="button" data-lesson="negotiated18">Download · Negotiated / 18 food</button></div>
+<p class="prediction">Compare pay, firm cash, and food shortfalls. Can output rise without a worker receiving more pay?</p>
+<p class="limit">We use one counteroffer and fixed prices and jobs, not the paper’s full economy. Hunger lowering the minimum accepted wage is our assumption, not a finding established by these papers.</p></article>
+</div>
+<p class="download-status" id="download-status" role="status" aria-live="polite"></p>
+<details class="learn-how"><summary>How to run a downloaded scenario</summary><p>Put the downloaded JSON file in the project folder. Run a new experiment, then open its HTML report. For example:</p><pre>cargo run -- society --scenario lesson-escrow.json --days 60 --output lesson-escrow-results.json --html lesson-escrow.html</pre><p>Use the same number of days for both versions. In the wage experiment, compare one difference at a time: posted versus negotiated at the same output, or 12 versus 18 food under the same wage rule. A changed outcome is evidence about these rules; an unchanged outcome is useful too.</p></details>
+</details>
+<details><summary>What this experiment means</summary><p>This is a small, separate society model. Its neighborhood layout shows who can interact; it is not a geographic reconstruction. Agents follow explicit rules for cooperation, trading, work, and survival. A free-rider or cheating trade describes an action in these rules, not a judgment about a real person.</p><p id="rules"></p><p>Population changes come from the model’s food and life-cycle rules. New people receive new identities even when they occupy a previously used map slot. Children must mature before joining the workforce. The simulation does not prescribe a collapse or revolt, and its time and resource units are experimental assumptions rather than calibrated predictions.</p></details>
+</main>
+<footer><span id="provenance"></span><span>One map tile is an agent slot. A new identity is a new person.</span></footer>
+<script type="application/json" id="society-report">__SOCIETY_REPORT__</script>
+<script>
+const report = JSON.parse(document.getElementById('society-report').textContent);
+const byId = id => document.getElementById(id);
+const number = value => Number(value ?? 0).toLocaleString();
+const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+const rounds = report.rounds;
+const settings = report.scenario;
+const lessonScenarios = {
+    reciprocity25:{name:'lesson-reciprocity-25.json',patch:{reciprocity_percent:25}},
+    reciprocity75:{name:'lesson-reciprocity-75.json',patch:{reciprocity_percent:75}},
+    trust:{name:'lesson-trust.json',patch:{trade_rule:'Trust'}},
+    escrow:{name:'lesson-escrow.json',patch:{trade_rule:'Escrow'}},
+    posted12:{name:'lesson-posted-12.json',patch:{wage_rule:'Posted',work_food:12,wage_offer:2,reservation_wage:4,maximum_wage:8}},
+    posted18:{name:'lesson-posted-18.json',patch:{wage_rule:'Posted',work_food:18,wage_offer:2,reservation_wage:4,maximum_wage:8}},
+    negotiated12:{name:'lesson-negotiated-12.json',patch:{wage_rule:'Negotiate',work_food:12,wage_offer:2,reservation_wage:4,maximum_wage:8}},
+    negotiated18:{name:'lesson-negotiated-18.json',patch:{wage_rule:'Negotiate',work_food:18,wage_offer:2,reservation_wage:4,maximum_wage:8}}
+};
+const firstPerson = rounds[0].agents.find(agent => ['Adult','Child'].includes(agent.life));
+const state = {index:0, identity:firstPerson?.identity ?? null, playback:'Paused', timer:0};
+const colors = {green:'#28866b',gold:'#c28b25',blue:'#4779b8',red:'#bd4d41',violet:'#8667ad',ink:'#192f2d',dead:'#758078',empty:'#e0e4da'};
+const series = [
+    {key:'population',label:'Living people',color:colors.ink},
+    {key:'contributors',label:'Contributors',color:colors.green},
+    {key:'hungry_agents',label:'Food shortages',color:colors.red},
+    {key:'births',label:'Births',color:colors.blue},
+    {key:'deaths',label:'Deaths',color:colors.violet}
+];
+const living = agent => ['Adult','Child'].includes(agent.life);
+const row = (label, value) => `<dt>${escape(label)}</dt><dd>${escape(value)}</dd>`;
+const key = (color, label) => `<span class="key"><span class="dot" style="background:${color}"></span>${escape(label)}</span>`;
+function appearance(agent) {
+    const lifeColors = {Vacant:colors.empty,Dead:colors.dead,Child:colors.blue,Adult:colors.green};
+    const need = agent.life === 'Child' ? settings.child_food_need : settings.daily_food_need;
+    const foodColor = agent.food_shortfall > 0 ? colors.red : agent.food < need * 2 ? colors.gold : colors.green;
+    const actionColor = agent.frauds_committed > 0 ? colors.red : agent.employed ? colors.violet : agent.action === 'Contribute' ? colors.green : colors.gold;
+    const modes = {life:lifeColors[agent.life],food:living(agent) ? foodColor : lifeColors[agent.life],activity:agent.life === 'Adult' ? actionColor : lifeColors[agent.life]};
+    const marks = {Vacant:'·',Dead:'×',Child:'c',Adult:agent.frauds_committed > 0 ? '!' : agent.employed ? 'W' : agent.action === 'Contribute' ? 'C' : 'F'};
+    return {color:modes[byId('map-mode').value],mark:marks[agent.life]};
+}
+function renderMap(round) {
+    const filter = byId('neighborhood').value;
+    const groups = Map.groupBy(round.agents, agent => agent.neighborhood);
+    const visible = [...groups].filter(([neighborhood]) => filter === 'all' || Number(filter) === neighborhood);
+    byId('map').innerHTML = visible.map(([neighborhood, agents]) => {
+        const count = agents.filter(living).length;
+        const cells = agents.map(agent => {
+            const style = appearance(agent);
+            const title = agent.life === 'Vacant' ? `Vacant slot ${agent.slot + 1}` : `Agent ${agent.identity}, ${agent.life}, ${agent.strategy}, trade ${agent.trade_behavior}, ${agent.action}, food ${agent.food}, cash ${agent.cash}${agent.food_shortfall > 0 ? ', food shortage' : ''}`;
+            const classes = ['agent', agent.life === 'Vacant' ? 'vacant' : '', agent.identity === state.identity ? 'selected' : '', agent.food_shortfall > 0 && living(agent) ? 'hungry' : ''].join(' ');
+            return `<button class="${classes}" style="background-color:${style.color}" data-identity="${agent.identity}" aria-label="${escape(title)}" title="${escape(title)}" aria-pressed="${agent.identity === state.identity}" ${agent.life === 'Vacant' ? 'disabled' : ''}>${style.mark}</button>`;
+        }).join('');
+        return `<section class="neighborhood" aria-label="Neighborhood ${neighborhood}"><div class="neighborhood-head"><span>BLOCK ${String(neighborhood).padStart(2,'0')}</span><span>${count} / ${agents.length}</span></div><div class="cells">${cells}</div></section>`;
+    }).join('');
+    const legends = {
+        activity:[key(colors.green,'C · contributes'),key(colors.gold,'F · free-rides'),key(colors.violet,'W · employed'),key(colors.red,'! · cheating trade'),key(colors.blue,'c · child')],
+        life:[key(colors.green,'Adult'),key(colors.blue,'Child'),key(colors.dead,'× · died this day')],
+        food:[key(colors.green,'At least 2 days of food'),key(colors.gold,'Fed, smaller reserve'),key(colors.red,'Unmet food need')]
+    };
+    byId('map-legend').innerHTML = [...legends[byId('map-mode').value],key(colors.empty,'· · vacant slot'),'<span class="key">Red ! badge · food shortage</span>'].join('');
+}
+function personDetails(agent, round, status) {
+    const firm = round.firms.find(item => item.neighborhood === agent.neighborhood);
+    const parent = agent.parent_identity === 0 ? 'Initial population' : `Parent: agent ${agent.parent_identity}`;
+    const employment = agent.employed ? `Employed · wage ${number(agent.wage)}` : agent.life === 'Child' ? 'Not yet working' : 'Not employed';
+    const action = {Contribute:'Contributed to the local project',FreeRide:'Kept effort for private production',Rest:'No productive action'}[agent.action];
+    const transactions = [
+        `${number(agent.contributed_effort)} effort contributed; ${number(agent.shared_food)} shared food received; ${number(agent.private_food)} food privately produced.`,
+        `${number(agent.bought_food)} food bought; ${number(agent.sold_food)} food sold.`,
+        `${number(agent.frauds_committed)} frauds committed; cheated ${number(agent.cheated_trades)} times; ${number(agent.refused_trades)} trades refused.`
+    ];
+    const condition = agent.life === 'Dead' ? 'This person died. A later person in this slot will have a different identity.' : agent.food_shortfall > 0 ? `Missing ${number(agent.food_shortfall)} food today. Shortage streak: ${number(agent.consecutive_shortages)} days.` : 'Daily food need met.';
+    byId('detail').innerHTML = `<div class="agent-name">Agent ${number(agent.identity)}</div><p class="subhead">Block ${agent.neighborhood} · slot ${agent.slot + 1}</p><span class="pill">${escape(agent.life)}</span><span class="pill">${escape(agent.strategy)}</span><span class="pill">Trade: ${escape(agent.trade_behavior)}</span><dl>${row('Age',`${number(agent.age)} model days`)}${row('Food reserve',number(agent.food))}${row('Cash',number(agent.cash))}${row('Work',employment)}${row('Minimum accepted wage',number(agent.reservation_wage))}${row('Local posted wage',number(firm?.wage_offer))}${row('Local jobs open',number(firm?.vacancies))}</dl><div class="note">${escape(status || condition)}</div><ul class="events"><li>${escape(action)}<small>${escape(transactions[0])}</small></li><li>Trade today<small>${escape(transactions[1])} ${escape(transactions[2])}</small></li><li>${escape(parent)}<small>${agent.last_fraud_identity > 0 ? `Remembers agent ${number(agent.last_fraud_identity)} as the last seller who cheated them.` : 'No remembered cheating seller.'}</small></li></ul>`;
+}
+function renderDetails(round) {
+    byId('selected-day').textContent = `Day ${round.summary.day}`;
+    const current = round.agents.find(agent => agent.identity === state.identity && agent.life !== 'Vacant');
+    const previous = rounds.slice(0,state.index + 1).findLast(item => item.agents.some(agent => agent.identity === state.identity && agent.life !== 'Vacant'));
+    const historical = previous?.agents.find(agent => agent.identity === state.identity && agent.life !== 'Vacant');
+    const view = current ? 'Present' : historical ? 'Past' : state.identity === null ? 'Unselected' : 'Future';
+    const views = {
+        Present:() => personDetails(current,round,''),
+        Past:() => personDetails(historical,previous,`No longer present on day ${round.summary.day}. Showing their last record from day ${previous.summary.day}; this does not select a new occupant of the same slot.`),
+        Future:() => {byId('detail').innerHTML = `<div class="agent-name">Agent ${number(state.identity)}</div><div class="note">This person has not appeared yet on the selected day. Move forward in the recording or select someone on the map.</div>`;},
+        Unselected:() => {byId('detail').innerHTML = '<div class="note">Select a person on the map to inspect their choices and resources.</div>';}
+    };
+    views[view]();
+}
+function renderChart() {
+    const ceiling = Math.max(1,...rounds.flatMap(round => series.map(item => round.summary[item.key])));
+    const x = index => rounds.length === 1 ? 507.5 : 45 + index / (rounds.length - 1) * 925;
+    const y = value => 142 - value / ceiling * 122;
+    const ticks = [0,0.5,1].map(ratio => `<line x1="45" x2="970" y1="${y(ceiling * ratio)}" y2="${y(ceiling * ratio)}" stroke="#d9dfd3"/><text x="35" y="${y(ceiling * ratio) + 4}" text-anchor="end">${Math.round(ceiling * ratio)}</text>`).join('');
+    const lines = series.map(item => {
+        const points = rounds.map((round,index) => `${x(index)},${y(round.summary[item.key])}`).join(' ');
+        return `<polyline points="${points}" fill="none" stroke="${item.color}" stroke-width="2"/><circle cx="${x(state.index)}" cy="${y(rounds[state.index].summary[item.key])}" r="3.5" fill="${item.color}"/>`;
+    }).join('');
+    byId('chart').innerHTML = `${ticks}${lines}<line x1="${x(state.index)}" x2="${x(state.index)}" y1="12" y2="148" stroke="#192f2d" stroke-opacity=".35" stroke-dasharray="3 4"/><text x="45" y="169">Day ${rounds[0].summary.day}</text><text x="970" y="169" text-anchor="end">Day ${rounds.at(-1).summary.day}</text>`;
+    byId('chart-legend').innerHTML = series.map(item => key(item.color,`${item.label}: ${number(rounds[state.index].summary[item.key])}`)).join('');
+}
+function render() {
+    const round = rounds[state.index];
+    const summary = round.summary;
+    byId('population').textContent = number(summary.population);
+    byId('population-note').textContent = `${number(summary.adults)} adults · ${number(summary.children)} children`;
+    byId('shortages').textContent = number(summary.hungry_agents);
+    const participatingAdults = round.agents.filter(agent => agent.action !== 'Rest').length;
+    byId('cooperation').textContent = participatingAdults === 0 ? '—' : `${Math.round(summary.contributors / participatingAdults * 100)}%`;
+    byId('cooperation-note').textContent = `${number(summary.contributors)} / ${number(participatingAdults)} adults active today`;
+    byId('employment').textContent = number(summary.employed);
+    byId('employment-note').textContent = `${number(round.firms.reduce((total,firm) => total + firm.vacancies,0))} unfilled local jobs`;
+    byId('day').value = state.index;
+    byId('day-label').textContent = `Day ${summary.day}`;
+    byId('previous').disabled = state.index === 0;
+    byId('next').disabled = state.index === rounds.length - 1;
+    byId('play').disabled = rounds.length === 1;
+    byId('day-story').textContent = `Day ${summary.day}: ${number(summary.births)} births · ${number(summary.deaths)} deaths · ${number(summary.trades)} trades · ${number(summary.frauds)} cheating trades · ${number(summary.food_reserves)} food in reserve.`;
+    renderMap(round);
+    renderDetails(round);
+    renderChart();
+}
+function playback(mode) {
+    clearInterval(state.timer);
+    state.playback = mode;
+    state.timer = mode === 'Playing' ? setInterval(() => {
+        const end = state.index === rounds.length - 1;
+        state.index = Math.min(state.index + 1,rounds.length - 1);
+        render();
+        if (end) playback('Paused');
+    },Number(byId('speed').value)) : 0;
+    byId('play').textContent = mode === 'Playing' ? 'Ⅱ Pause' : '▶ Play';
+    byId('play').setAttribute('aria-label',mode === 'Playing' ? 'Pause recorded days' : 'Play recorded days');
+}
+byId('day').max = rounds.length - 1;
+byId('neighborhood').insertAdjacentHTML('beforeend',[...new Set(rounds[0].agents.map(agent => agent.neighborhood))].map(value => `<option value="${value}">Block ${value}</option>`).join(''));
+byId('day').addEventListener('input',event => {playback('Paused');state.index = Number(event.target.value);render();});
+byId('previous').addEventListener('click',() => {playback('Paused');state.index = Math.max(0,state.index - 1);render();});
+byId('next').addEventListener('click',() => {playback('Paused');state.index = Math.min(rounds.length - 1,state.index + 1);render();});
+byId('play').addEventListener('click',() => {state.index = state.index === rounds.length - 1 ? 0 : state.index;playback(state.playback === 'Playing' ? 'Paused' : 'Playing');render();});
+byId('speed').addEventListener('change',() => playback(state.playback));
+byId('map-mode').addEventListener('change',render);
+byId('neighborhood').addEventListener('change',render);
+byId('map').addEventListener('click',event => {
+    const button = event.target.closest('button[data-identity]');
+    if (button) {
+        state.identity = Number(button.dataset.identity);
+        renderDetails(rounds[state.index]);
+        renderMap(rounds[state.index]);
+        byId('map').querySelector(`[data-identity="${state.identity}"]`)?.focus({preventScroll:true});
+    }
+});
+byId('chart').addEventListener('click',event => {
+    const bounds = byId('chart').getBoundingClientRect();
+    const position = ((event.clientX - bounds.left) / bounds.width * 1000 - 45) / 925;
+    playback('Paused');
+    state.index = Math.round(Math.max(0,Math.min(1,position)) * (rounds.length - 1));
+    render();
+});
+byId('rules').textContent = `Adults need ${number(settings.daily_food_need)} food per model day; children need ${number(settings.child_food_need)}. Maturity begins at age ${number(settings.adult_age)}. Starvation follows ${number(settings.starvation_days)} consecutive shortage days. Project sharing: ${settings.sharing === 'Everyone' ? 'all eligible neighbors can receive output' : 'contributors receive the output'}. Trade uses ${settings.trade_rule === 'Escrow' ? 'escrow settlement' : 'trust, with buyers remembering one cheating seller'}. Wages are ${settings.wage_rule === 'Negotiate' ? 'negotiated against each worker’s minimum' : 'posted; workers can accept or refuse'}. Births are ${settings.birth_rule === 'Disabled' ? 'disabled' : 'funded from a parent’s food surplus'}. These settings belong to this saved run; playback does not change them.`;
+byId('provenance').textContent = `${report.model} · ${report.device} · ${number(rounds.length)} recorded days`;
+const reciprocators = settings.agents.filter(agent => agent.strategy === 'Reciprocator').length;
+byId('lesson-cooperation-context').textContent = `This run starts with ${number(reciprocators)} Reciprocators. Downloads keep the same starting agents and resources.`;
+document.querySelectorAll('[data-lesson]').forEach(button => button.addEventListener('click',() => {
+    const lesson = lessonScenarios[button.dataset.lesson];
+    const scenario = {...settings,...lesson.patch};
+    const blob = new Blob([JSON.stringify(scenario,null,2)],{type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = lesson.name;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url),1000);
+    byId('download-status').textContent = `Downloaded ${lesson.name}. Run it to produce a new recording; this map is unchanged.`;
+}));
+render();
+</script>
+</body>
+</html>

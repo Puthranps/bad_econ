@@ -14,6 +14,8 @@ struct Cli {
     mode: Mode,
     #[arg(long, default_value_t = 10_000)]
     households: u32,
+    #[arg(long, default_value_t = 128, help = "Starting people in society mode")]
+    agents: u32,
     #[arg(long, default_value_t = 42)]
     seed: u64,
     #[arg(long, value_enum, default_value_t = ExperimentArg::Baseline)]
@@ -38,6 +40,8 @@ struct Cli {
     checkpoint: Option<PathBuf>,
     #[arg(long)]
     output: Option<PathBuf>,
+    #[arg(long, help = "Write an offline replay map in society mode")]
+    html: Option<PathBuf>,
     #[arg(long, value_delimiter = ',', default_value = "10000,100000,1000000")]
     sizes: Vec<u32>,
 }
@@ -50,6 +54,7 @@ enum Mode {
     View,
     ViewCheck,
     Analyze,
+    Society,
 }
 #[derive(Clone, Copy, ValueEnum)]
 enum Backend {
@@ -88,6 +93,10 @@ impl From<ExperimentArg> for Experiment {
 }
 fn main() -> Result<()> {
     let args = Cli::parse();
+    match (args.mode, &args.html) {
+        (Mode::Society, _) | (_, None) => Ok(()),
+        _ => Err(anyhow!("--html is available in society mode")),
+    }?;
     match args.mode {
         Mode::Scenario => output(
             &args.output,
@@ -98,7 +107,45 @@ fn main() -> Result<()> {
         Mode::Benchmark => benchmark(scenario(&args)?, &args),
         Mode::View | Mode::ViewCheck => view(scenario(&args)?, args.workgroup, args.mode),
         Mode::Analyze => analyze(&args),
+        Mode::Society => society(&args),
     }
+}
+#[cfg(feature = "compute")]
+fn society(args: &Cli) -> Result<()> {
+    use bad_econ::{
+        domain::society::SocietyScenario,
+        simulation::{Device, society::SocietyReport},
+    };
+    match (&args.restore, &args.checkpoint) {
+        (None, None) => Ok(()),
+        _ => Err(anyhow!(
+            "society reports support seeded reruns, not checkpoints"
+        )),
+    }?;
+    let scenario = match &args.scenario {
+        Some(path) => serde_json::from_slice(&std::fs::read(path)?)?,
+        None => SocietyScenario::mixed(args.agents, args.seed)?,
+    };
+    let device = match args.backend {
+        Backend::Gpu => Device::headless(args.workgroup),
+        Backend::Cpu => Err(anyhow!(
+            "the society experiment currently requires --backend gpu"
+        )),
+    }?;
+    let report = SocietyReport::run(scenario, device, args.days)?;
+    output(&args.output, &serde_json::to_value(&report)?)?;
+    if let Some(path) = &args.html {
+        let data = serde_json::to_string(&report)?.replace('<', "\\u003c");
+        let html =
+            include_str!("simulation/society/report.html").replace("__SOCIETY_REPORT__", &data);
+        write_file(path, &html)?;
+        eprintln!("society map: {}", path.display());
+    }
+    Ok(())
+}
+#[cfg(not(feature = "compute"))]
+fn society(_: &Cli) -> Result<()> {
+    Err(anyhow!("build with the compute feature"))
 }
 fn scenario(args: &Cli) -> Result<Scenario> {
     match &args.scenario {
@@ -267,16 +314,18 @@ fn view(_: Scenario, _: u32, _: Mode) -> Result<()> {
 fn output(path: &Option<PathBuf>, value: &serde_json::Value) -> Result<()> {
     let json = serde_json::to_string_pretty(value)?;
     match path {
-        Some(path) => {
-            if let Some(parent) = path
-                .parent()
-                .filter(|parent| !parent.as_os_str().is_empty())
-            {
-                std::fs::create_dir_all(parent)?;
-            }
-            std::fs::write(path, json)?;
-        }
+        Some(path) => write_file(path, &json)?,
         None => println!("{json}"),
     };
+    Ok(())
+}
+fn write_file(path: &std::path::Path, contents: &str) -> Result<()> {
+    if let Some(parent) = path
+        .parent()
+        .filter(|parent| !parent.as_os_str().is_empty())
+    {
+        std::fs::create_dir_all(parent)?;
+    }
+    std::fs::write(path, contents)?;
     Ok(())
 }

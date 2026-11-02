@@ -24,6 +24,27 @@ A status banner confirms completed controls and reports failures, with short sou
 
 Presentation geometry and statistics refresh when the published display or selected chart changes. Worker publications wake the window immediately; between changes, it updates at most every 250 ms when focused or 500 ms when unfocused. Banner pulses temporarily use 60 Hz updates. The simulation worker and audit cadence are independent of rendering.
 
+## Experimental society
+
+The Puthranps fork also contains a separate GPU society experiment. Run it and open its offline map:
+
+```powershell
+cargo run -- society --agents 128 --seed 42 --days 120 --output target/society/run.json --html target/society/map.html
+Invoke-Item target/society/map.html
+```
+
+The map replays the recorded run. Select a day and a person to inspect their food, cash, work, and interactions; switch colors between activity, life stage, and food security. The charts track population, cooperation, employment, and shortages. Map blocks represent local neighborhoods, rather than geographic distances.
+
+Open **Learn through experiments** below the charts for three plain-language lessons and downloadable paired scenarios. Predict an outcome, rerun both versions for the same number of days, then inspect individual agents as well as totals. The lessons draw on [conditional cooperation and learning (2024 preprint)](https://arxiv.org/html/2409.09509v1), [reputation and institutions (PNAS, 2024)](https://doi.org/10.1073/pnas.2408802121), and [productivity and wage bargaining (2023)](https://doi.org/10.1007/s00191-022-00805-3). Each identifies which mechanisms the toy model omits; these experiments do not reproduce the papers.
+
+Agents can contribute to shared production, free-ride, reciprocate their neighbors' behavior, or imitate a successful neighbor. Local trade and employer-worker negotiation provide additional interactions. Consumption draws down food reserves; sustained shortages can cause starvation. Births transfer resources from a parent, children must mature before working, and new adults can fill job vacancies. A newborn gets a new identity even when it occupies a previously used map slot.
+
+Project strategy and trading honesty are separate traits. Trust-based buyers remember their last cheating seller; escrow guarantees delivery with payment. Workers can reject a posted wage or make one counteroffer, subject to the firm's budget. Their minimum accepted wage falls during consecutive shortages, an explicit modeling assumption. Parents fund births with food and a quarter of their cash; cash estates go to the local firm. Food production, consumption, and any abandonment have separate accounts.
+
+Use `--scenario PATH` to load a society configuration. The `scenario` object in a JSON report is a complete starting configuration that can be saved, edited, and rerun. These configurations are separate from the industrial economy's scenario files. The original `run`, `view`, and industrial ledger are unchanged.
+
+This is a bounded toy model: local membership, population capacity, food price, and job counts are fixed, while the living population changes. Birth and starvation rules are explicit assumptions, not demographic estimates. Escrow is automatic and has no operating cost. A shortage or population decline is observable; revolts, migration, old-age deaths, and a scripted collapse event are not included. Reports contain every slot on every recorded day, including children, deaths, and vacancies. GPU food, cash, and population outcomes are audited after each day. Configurations support up to 4096 slots and 365 days, with reports limited to 262144 slot-days; generated populations reserve twice as many slots as starting people.
+
 ## Model
 
 Each day follows opening → observation → proposal → commitment → work/payment → provision/purchase → physical close → accounts/decisions → audit.
