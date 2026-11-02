@@ -1,0 +1,23 @@
+   Compiling bad_econ v0.1.0 (C:\Users\meepl\code\bad_econ)
+    Finished `test` profile [optimized + debuginfo] target(s) in 32.04s
+     Running tests\gpu.rs (target\debug\deps\gpu-b3d35821e04fdd44.exe)
+
+running 4 tests
+test gpu_integer_ledger ... ok
+test gpu_memory_budget_rejects_scenarios_before_allocation ... ok
+test gpu_memory_budget_survives_restore_and_faults_on_excess_usage ... ok
+test gpu_phases_match_across_workgroups_and_experiments ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 23.87s
+
+     Running tests\society.rs (target\debug\deps\society-cc5352dbea54b79d.exe)
+
+running 6 tests
+test gpu_new_id_reuses_a_dead_slot_and_matures_into_a_replacement_worker ... ok
+test gpu_parent_funded_births_grow_population_without_child_labor ... ok
+test gpu_society_replays_across_workgroups_and_rejects_unbounded_inputs ... ok
+test gpu_starvation_removes_agents_and_transfers_cash_estates ... ok
+test gpu_trade_fraud_is_a_real_transfer_and_memory_refuses_the_offender ... ok
+test gpu_wage_counteroffer_changes_hiring_without_employing_children ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.62s

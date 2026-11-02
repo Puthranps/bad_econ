@@ -1,0 +1,799 @@
+{
+  "adult_age": 14,
+  "agents": [
+    {
+      "age": 20,
+      "slot": 0,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 2,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 4,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 6,
+      "strategy": "Cooperator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 8,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 10,
+      "strategy": "Cooperator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 12,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 14,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 16,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 18,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 20,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 22,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 24,
+      "strategy": "FreeRider",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 26,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 28,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 30,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 32,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 34,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 36,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 38,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 40,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 42,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 44,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 46,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 48,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 50,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 52,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 54,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 56,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 58,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 60,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 62,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 64,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 66,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 68,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 70,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 72,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 74,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 76,
+      "strategy": "FreeRider",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 78,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 80,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 82,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 84,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 86,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 88,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 90,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 92,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 94,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 96,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 98,
+      "strategy": "FreeRider",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 100,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 102,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 104,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 106,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 108,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 110,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 112,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 114,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 116,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 118,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 120,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 122,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 124,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 126,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 128,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 130,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 132,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 134,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 136,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 138,
+      "strategy": "FreeRider",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 140,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 142,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 144,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 146,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 148,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 150,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 152,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 154,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 156,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 158,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 160,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 162,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 164,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 166,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 168,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 170,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 172,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 174,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 176,
+      "strategy": "FreeRider",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 178,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 180,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 182,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 184,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 186,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 188,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 190,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 192,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 194,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 196,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 198,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 200,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 202,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 204,
+      "strategy": "Imitator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 206,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 208,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 210,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 212,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 214,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 216,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 218,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 220,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 222,
+      "strategy": "Cooperator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 224,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 226,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 228,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 230,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 232,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 234,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 236,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 238,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 240,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 242,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 244,
+      "strategy": "FreeRider",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 246,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 248,
+      "strategy": "Imitator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 250,
+      "strategy": "Cooperator",
+      "trade_behavior": "Fair"
+    },
+    {
+      "age": 20,
+      "slot": 252,
+      "strategy": "Reciprocator",
+      "trade_behavior": "Cheat"
+    },
+    {
+      "age": 20,
+      "slot": 254,
+      "strategy": "Cooperator",
+      "trade_behavior": "Cheat"
+    }
+  ],
+  "birth_food": 20,
+  "birth_interval": 20,
+  "birth_rule": "Surplus",
+  "capacity": 256,
+  "child_food_need": 2,
+  "daily_effort": 8,
+  "daily_food_need": 10,
+  "firm_cash": 200,
+  "firm_food": 32,
+  "food_price": 2,
+  "initial_cash": 20,
+  "initial_food": 24,
+  "jobs": 2,
+  "maximum_wage": 8,
+  "neighborhood_size": 16,
+  "project_effort": 3,
+  "project_productivity": 3,
+  "reciprocity_percent": 75,
+  "reservation_wage": 4,
+  "sharing": "Everyone",
+  "starvation_days": 5,
+  "trade_rule": "Trust",
+  "wage_offer": 4,
+  "wage_rule": "Negotiate",
+  "work_effort": 3,
+  "work_food": 12
+}

@@ -1,0 +1,33 @@
+{
+  "model_commit": "3966037e9cad21ff1de41bfb2bb928c8b9a15b1b",
+  "map_commit": "18ada0145ae480036915bb13336da291f9e25bb9",
+  "binary_sha256": "5b95011abf2c9edec53dd110627548855d614dc8881fe2020079931c91a1fc6a",
+  "files": {
+    "baseline-scenario.json": "68ef1d0423dd96079cb1a95eabee2ddb29937202c59b10c1ee61c055d291951e",
+    "baseline.json.gz": "7e622bc9a798a60e648aaa2e919aa037a34171d1001e3c72f056b429fbdc431b",
+    "build.log": "4810eb505ac363799ba2207bfd2245bcc2282228252dc04f4921aea1bfb67529",
+    "check-report.mjs": "bb2c31d105fdf203e00a1c0d11c78a3b8ba403d6cb633d40e6257c1b817c7125",
+    "clippy.log": "d2a48d81c0c131ba4b7cecceaad813cfeede84f1693d6d698aac5415324f77a6",
+    "escrow-scenario.json": "a9cc5901fbe1c69b5bbfe227685570ff5170866753e0f522b84df53ee21ed3f8",
+    "escrow.json.gz": "1adf685d541c07d08e04416eab08cb30c9fe4134bab0a841e4206e90e546f5f5",
+    "example-map.html.gz": "f99cbf475040b2f0d8873cb637d2dbd395a50cb3c9febfe582162585f0867818",
+    "final-report.log": "5df5189fe65cc896f65d61a611432cd6b42787970ed529100951ad38e8927d1f",
+    "gpu-tests.log": "d7822a7f07dc496fd6b11f218f315d633d3e3e0b9df9630045d80b7cc69b6655",
+    "negotiated-12-scenario.json": "3146616c07d264f099301634430399924b81d2d15f78d9b8dd256603e71d7b23",
+    "negotiated-12.json.gz": "c4aceb13ceb237b6efc17ec89bd92e3d9cd5f537aa105bd5e7e826c026827a09",
+    "negotiated-18-scenario.json": "939aa1e6c6070496530fc2a2e80aabe04bc0617eaa3e43bb02018f31bdfa813e",
+    "negotiated-18.json.gz": "4518d0289e5a3353bd8dd15e6b0c0c2ddd7bb5d39fa1f4c62c99b4ba051ce842",
+    "posted-12-scenario.json": "525c99d470edd062fc088bd01413599c0a8841e7745627e51a070d30ae8864c0",
+    "posted-12.json.gz": "adb244f36e4829afb75f21b0397bb3bc9968299d8787428f5a53e3ee93de7460",
+    "posted-18-scenario.json": "26fd31312b628facd8f671fde9e0c4b44ea4f5ffafd474ae1906f2f540928634",
+    "posted-18.json.gz": "f36ed22684d05ef67cc326b0a2bb6b54d6423416ddd85943687575d7f7e76e72",
+    "README.md": "45cbcccf578326b606014d5f7ef2122d92cec748c220475680e7590f26d9b03e",
+    "reciprocity-25-scenario.json": "b92555ea7488b398a6161de3534dc53da36fffd2bec1d9f32e28a15b6d840ce7",
+    "reciprocity-25.json.gz": "0107a191f3e954f4a0f2c16653a1946e51273f91e12235d9ccf467db630324d7",
+    "reciprocity-75-scenario.json": "3f20af1ccfff3f7731214c42a1b5d76461dbfb894f6249b0b1d645538a8aa527",
+    "reciprocity-75.json.gz": "897abbbd11a76569d2c58d3cab5e5ec8ee2b4f400cedd0695af28caf576553ff",
+    "report-script-check.log": "e57a635aced1e77d123d9025cdda5228e005eea85828c6924465a45d1fc68194",
+    "run-experiments.py": "96b7eba94461923ae2fe1377c38b8021da68967fca06febce8e305a704ab661b",
+    "summary.json": "f869ab13e421143160029fabe7a7595dd5eb32e356fe99c5583cbe1e2a2d8042"
+  }
+}
