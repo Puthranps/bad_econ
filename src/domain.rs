@@ -12,6 +12,7 @@ mod households;
 pub mod industry;
 mod payroll;
 pub mod research;
+pub mod society;
 pub use households::HouseholdPolicy;
 pub use industry::{Economy, ProductionMethod, Technology};
 mod population;

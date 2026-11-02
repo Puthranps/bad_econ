@@ -14,6 +14,7 @@ mod policy;
 pub mod research;
 mod rows;
 mod scheduler;
+pub mod society;
 mod words;
 use crate::{
     arithmetic::add,
