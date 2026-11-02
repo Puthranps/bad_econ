@@ -11,13 +11,14 @@ const LEFT: f32 = -608.0;
 const TOP: f32 = 296.0;
 const MAP_WIDTH: f32 = 864.0;
 const MAP_HEIGHT: f32 = 576.0;
-const INK: Color = Color::srgb(0.85, 0.91, 0.94);
-const MUTED: Color = Color::srgb(0.48, 0.62, 0.67);
+pub(super) const INK: Color = Color::srgb(0.85, 0.91, 0.94);
+pub(super) const MUTED: Color = Color::srgb(0.48, 0.62, 0.67);
 
 #[derive(Component)]
 pub(super) struct ToolButton {
     pub bounds: Rect,
     pub tool: Tool,
+    pub overlay: Overlay,
 }
 #[derive(Component)]
 pub(super) enum Label {
@@ -27,14 +28,21 @@ pub(super) enum Label {
     Brush,
     Legend,
     Footer,
+    CompactAxis,
+    HistoryTotals,
+    PopulationAxis,
+    ActivityAxis,
+    HistoryEvents,
+    HistoryNote,
     Button(Tool),
 }
 #[derive(Component)]
-pub(super) struct Learning;
+pub(super) struct OverlayPanel(pub Overlay);
 #[derive(Resource)]
 pub(super) struct Canvas {
     image: Handle<Image>,
     geometry: Handle<GizmoAsset>,
+    history_geometry: Handle<GizmoAsset>,
     food_capacity: u32,
 }
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -105,7 +113,7 @@ pub(super) fn map_cell(point: Vec2, dashboard: &Dashboard) -> Option<UVec2> {
         })
 }
 
-fn text(
+pub(super) fn text(
     commands: &mut Commands,
     content: impl Into<String>,
     point: Vec2,
@@ -126,19 +134,43 @@ fn text(
         .id()
 }
 
-fn button(commands: &mut Commands, tool: Tool, label: &str, left: f32, top: f32, width: f32) {
+pub(super) fn button(
+    commands: &mut Commands,
+    tool: Tool,
+    label: &str,
+    left: f32,
+    top: f32,
+    width: f32,
+    overlay: Overlay,
+) {
     let size = Vec2::new(width, 30.0);
     let center = Vec2::new(left + width / 2.0, top - 15.0);
+    let z = match overlay {
+        Overlay::None => 1.0,
+        _ => 16.0,
+    };
+    let visibility = match overlay {
+        Overlay::None => Visibility::Visible,
+        _ => Visibility::Hidden,
+    };
     commands.spawn((
         ToolButton {
             bounds: Rect::from_center_size(center, size),
             tool,
+            overlay,
         },
+        OverlayPanel(overlay),
+        visibility,
         Sprite::from_color(Color::srgb(0.09, 0.16, 0.19), size),
-        Transform::from_xyz(center.x, center.y, 1.0),
+        Transform::from_xyz(center.x, center.y, z),
     ));
     let entity = text(commands, label, Vec2::new(left + 9.0, top - 7.0), 13.0, INK);
-    commands.entity(entity).insert(Label::Button(tool));
+    commands.entity(entity).insert((
+        Label::Button(tool),
+        OverlayPanel(overlay),
+        visibility,
+        Transform::from_xyz(left + 9.0, top - 7.0, z + 2.0),
+    ));
 }
 
 pub(super) fn setup(
@@ -179,6 +211,7 @@ pub(super) fn setup(
         Transform::from_xyz(center.x, center.y, 0.0),
     ));
     let geometry = assets.add(GizmoAsset::default());
+    let history_geometry = assets.add(GizmoAsset::default());
     commands.spawn((
         Gizmo {
             handle: geometry.clone(),
@@ -189,8 +222,16 @@ pub(super) fn setup(
     commands.insert_resource(Canvas {
         image,
         geometry,
+        history_geometry: history_geometry.clone(),
         food_capacity: config.food_capacity,
     });
+    commands.spawn((
+        Gizmo {
+            handle: history_geometry,
+            ..Default::default()
+        },
+        Transform::from_xyz(0.0, 0.0, 17.0),
+    ));
     text(
         &mut commands,
         "SOCIETY / LIFE",
@@ -206,17 +247,19 @@ pub(super) fn setup(
         MUTED,
     );
     let toolbar = [
-        (Tool::Play, "SPACE Play", 100.0),
-        (Tool::Step, "N Step", 80.0),
-        (Tool::Reset(Seed::Same), "R Same seed", 118.0),
-        (Tool::Reset(Seed::Next), "C New seed", 112.0),
-        (Tool::Speed, "S 10 ticks/s", 120.0),
-        (Tool::View, "G Strategies", 122.0),
-        (Tool::Learn, "L Learn", 90.0),
+        (Tool::Play, "SPACE Play", 92.0),
+        (Tool::Step, "N Step", 66.0),
+        (Tool::Reset(Seed::Same), "R Same seed", 106.0),
+        (Tool::Reset(Seed::Next), "C New seed", 100.0),
+        (Tool::Speed, "S 10 ticks/s", 108.0),
+        (Tool::View, "G Strategies", 106.0),
+        (Tool::Learn, "L Learn", 70.0),
+        (Tool::History, "H History", 80.0),
+        (Tool::Export, "E Export", 68.0),
     ];
     let mut x = LEFT;
     for (tool, label, width) in toolbar {
-        button(&mut commands, tool, label, x, 358.0, width);
+        button(&mut commands, tool, label, x, 358.0, width, Overlay::None);
         x += width + 8.0;
     }
     let legend = text(&mut commands, "", Vec2::new(LEFT, 318.0), 13.0, MUTED);
@@ -260,6 +303,7 @@ pub(super) fn setup(
             286.0 + (index % 2) as f32 * 161.0,
             216.0 - (index / 2) as f32 * 38.0,
             153.0,
+            Overlay::None,
         );
     }
     button(
@@ -269,6 +313,7 @@ pub(super) fn setup(
         447.0,
         140.0,
         64.0,
+        Overlay::None,
     );
     button(
         &mut commands,
@@ -277,6 +322,7 @@ pub(super) fn setup(
         519.0,
         140.0,
         64.0,
+        Overlay::None,
     );
     let brush = text(&mut commands, "", Vec2::new(286.0, 98.0), 12.0, MUTED);
     commands.entity(brush).insert(Label::Brush);
@@ -306,6 +352,7 @@ pub(super) fn setup(
             534.0,
             top,
             31.0,
+            Overlay::None,
         );
         button(
             &mut commands,
@@ -314,6 +361,7 @@ pub(super) fn setup(
             573.0,
             top,
             31.0,
+            Overlay::None,
         );
     }
     text(
@@ -333,44 +381,48 @@ pub(super) fn setup(
     commands.entity(inspection).insert(Label::Inspection);
     text(
         &mut commands,
-        "RECENT POPULATION   /   green cooperators   red exploiters   blue conditional",
+        "WHOLE RUN   /   white total   green cooperators   red exploiters   blue conditional",
         Vec2::new(LEFT, -300.0),
         12.0,
         MUTED,
     );
-    let footer = text(&mut commands, "", Vec2::new(LEFT, -420.0), 13.0, MUTED);
+    let axis = text(&mut commands, "", Vec2::new(LEFT, -397.0), 11.0, MUTED);
+    commands.entity(axis).insert(Label::CompactAxis);
+    let footer = text(&mut commands, "", Vec2::new(LEFT, -425.0), 12.0, MUTED);
     commands.entity(footer).insert(Label::Footer);
     commands.spawn((
-        Learning,
+        OverlayPanel(Overlay::Learn),
         Visibility::Hidden,
-        Sprite::from_color(
-            Color::srgba(0.035, 0.07, 0.09, 0.98),
-            Vec2::new(1060.0, 670.0),
-        ),
+        Sprite::from_color(Color::srgb(0.035, 0.07, 0.09), Vec2::new(1060.0, 670.0)),
         Transform::from_xyz(0.0, 25.0, 15.0),
     ));
     let learn = text(
         &mut commands,
-        "CAN A COOPERATIVE PATCH RESIST EXPLOITATION?\n\nPredict before you paint.\n\n1. Pause. Paint a green patch, then a smaller red patch inside it.\n2. Play slowly. Watch food, births, deaths, and the boundary.\n3. Reset the same seed. Change cooperation; paint the same patch.\n   Does the boundary behave differently?\n\nResearch connection\nFederico, Balakrishna & Janssen (2025) study conditional\ncooperation in a spatial public-goods game. Their model shows\nhow local interaction and clustering can support cooperation.\n\nOur births, deaths, energy, and inherited strategies differ.\nThis is an experiment inspired by that question, not a replication\nor a prediction about human societies.\n\nPaper: doi.org/10.1371/journal.pcsy.0000040\n\nThe map wraps at its edges. New identities mark new agents.\nPaint and rule changes affect the live simulation.\n\nL  CLOSE       SPACE  PAUSE / PLAY",
+        "CAN A COOPERATIVE PATCH RESIST EXPLOITATION?\n\nPredict before you paint.\n1. Pause. Paint a green patch, then a smaller red patch inside it.\n2. Play slowly. Watch food, births, deaths, and the boundary.\n3. Reset the same seed. Change cooperation; paint the same patch.\n   Does the boundary behave differently? H shows the whole run.\n\nThe rules matter\nThe default starting mix is roughly thirds. Food regrowth 2 is\nbelow metabolism 3: cooperation adds food in this baseline.\nTry regrowth 6 to change that tradeoff. Blue conditional agents\nmay cooperate; color shows strategy, not the latest action.\n\nResearch connection\nFederico, Balakrishna & Janssen (2025) study conditional\ncooperation in a spatial public-goods game. Their model shows\nhow local interaction and clustering can support cooperation.\nOur births, deaths, energy, and inherited strategies differ.\nThis is inspired by that question, not a replication or a\nprediction about human societies.\nPaper: doi.org/10.1371/journal.pcsy.0000040\n\nEdges wrap. New identities mark new agents. Painting changes\nthe live world; its effects are logged separately from births.\n\nL  CLOSE       SPACE  PAUSE / PLAY",
         Vec2::new(-485.0, 315.0),
         18.0,
         INK,
     );
     commands.entity(learn).insert((
-        Learning,
+        OverlayPanel(Overlay::Learn),
         Visibility::Hidden,
         Transform::from_xyz(-485.0, 315.0, 16.0),
     ));
+    button(
+        &mut commands,
+        Tool::Learn,
+        "L Close",
+        390.0,
+        345.0,
+        100.0,
+        Overlay::Learn,
+    );
+    timeline::setup(&mut commands);
 }
 
 fn pixel(cell: &LifeCell, mode: MapMode, capacity: u32) -> [u8; 4] {
     let food = cell.food as f32 / capacity.max(1) as f32;
-    let empty = [
-        8 + (food * 18.0) as u8,
-        18 + (food * 55.0) as u8,
-        23 + (food * 22.0) as u8,
-        255,
-    ];
+    let empty = [12, 18, 29, 255];
     match (mode, cell.life, cell.event) {
         (_, CellLife::Dead, _) => [130, 54, 90, 255],
         (MapMode::Resources, _, _) => [
@@ -410,13 +462,51 @@ fn caption(tool: Tool, display: &Display, dashboard: &Dashboard) -> Option<Strin
     }
 }
 
+fn inspect(cell: &LifeCell, point: UVec2) -> String {
+    match cell.life {
+        CellLife::Vacant => {
+            let occupant = match cell.identity {
+                0 => "No previous occupant".into(),
+                identity => format!("Last occupant #{identity}"),
+            };
+            format!(
+                "Cell {}, {}   Empty cell\nFood {}\n{occupant}",
+                point.x, point.y, cell.food
+            )
+        }
+        CellLife::Dead => format!(
+            "Cell {}, {}   Died this tick\nLast agent #{}   parent {}\n{:?} / {:?}\nAge {}   food {}",
+            point.x,
+            point.y,
+            cell.identity,
+            cell.parent_identity,
+            cell.strategy,
+            cell.action,
+            cell.age,
+            cell.food
+        ),
+        CellLife::Alive => format!(
+            "Cell {}, {}   Alive\nAgent #{}   parent {}\nStrategy {:?}\nAction {:?}\nAge {}   energy {}   food {}",
+            point.x,
+            point.y,
+            cell.identity,
+            cell.parent_identity,
+            cell.strategy,
+            cell.action,
+            cell.age,
+            cell.energy,
+            cell.food
+        ),
+    }
+}
+
 pub(super) fn draw(
     dashboard: Res<Dashboard>,
     canvas: Res<Canvas>,
     mut images: ResMut<Assets<Image>>,
     mut assets: ResMut<Assets<GizmoAsset>>,
     mut labels: Query<(&Label, &mut Text2d)>,
-    mut overlay: Query<&mut Visibility, With<Learning>>,
+    mut overlay: Query<(&OverlayPanel, &mut Visibility)>,
     mut previous: Local<PresentationState>,
 ) {
     let display = dashboard.data.lock().expect("life display lock");
@@ -431,36 +521,46 @@ pub(super) fn draw(
                 Label::Button(tool) => caption(*tool, &display, &dashboard),
                 Label::Statistics => frame.map(|frame| {
                     let s = &frame.summary;
-                    format!("{:?}   /   tick {}\nPopulation {}\nCoop {}   Exploit {}\nConditional {}\nBirths {}   Deaths {}\nHungry {}   Food {}\nSeed {}", display.playback, frame.tick, s.population, s.cooperators, s.exploiters, s.conditional, s.births, s.deaths, s.hungry, s.food, display.seed)
+                    let flows = display.history.samples.last();
+                    let (births, deaths, hungry) = flows.map(|point| (point.natural_births, point.natural_deaths, point.hungry)).unwrap_or_default();
+                    format!("{:?}   /   tick {}\nPopulation {}\nCoop {}   Exploit {}\nConditional {}\nLast tick: born {} / died {}\nHungry {}   Food {}\nSeed {}", display.playback, frame.tick, s.population, s.cooperators, s.exploiters, s.conditional, births, deaths, hungry, s.food, display.seed)
                 }),
                 Label::Brush => Some(format!("Brush {:?}   |   radius {} cells", dashboard.brush, dashboard.radius)),
                 Label::Rules => Some(format!("{:<18}{:>7}\n\n{:<18}{:>7}\n\n{:<18}{:>7}\n\n{:<18}{:>7}", "Food regrowth", display.rules.regrowth, "Cooperation", display.rules.cooperation, "Exploitation", display.rules.exploitation, "Mutation", format!("{:.1}%", display.rules.mutation_per_mille as f32 / 10.0))),
                 Label::Legend => Some(match dashboard.mode {
-                    MapMode::Strategies => "GREEN cooperator   RED exploiter   BLUE conditional   WHITE birth   PLUM death".into(),
+                    MapMode::Strategies => "STRATEGY: green coop / red exploit / blue conditional   |   dark empty / white new / plum dead".into(),
                     MapMode::Resources => "FOOD MAP   brighter = more food   |   G returns to strategies".into(),
                 }),
                 Label::Inspection => Some(match (frame, dashboard.hover) {
                     (Some(frame), Some(point)) => {
                         let cell = &frame.cells[(point.y * frame.width + point.x) as usize];
-                        format!("Cell {}, {}   {:?}\nAgent {}   parent {}\n{:?} / {:?}\nAge {}   energy {}   food {}\nEvent {:?}", point.x, point.y, cell.life, cell.identity, cell.parent_identity, cell.strategy, cell.action, cell.age, cell.energy, cell.food, cell.event)
+                        inspect(cell, point)
                     }
                     _ => "Hover over the grid to inspect.\nLeft drag paints a live patch.".into(),
                 }),
-                Label::Footer => Some(display.error.clone().unwrap_or_else(|| match dashboard.notice.is_empty() {
-                    true => "SPACE play/pause   N step   1-5 brushes   [ ] radius   R reset   C new seed   S speed   G map   L learn   ESC quit".into(),
-                    false => dashboard.notice.clone(),
+                Label::Footer => Some(display.error.clone().or_else(|| display.export_error.clone()).unwrap_or_else(|| match (dashboard.notice.is_empty(), &display.last_export) {
+                    (false, _) => dashboard.notice.clone(),
+                    (_, Some(path)) => format!("Saved {}   |   H history", path.display()),
+                    _ => "SPACE play/pause   N step   1-5 brushes   [ ] radius   R reset   C new seed   G map   L learn   H history   E export   ESC quit".into(),
                 })),
+                _ => timeline::content(label, &display),
             };
             if let Some(content) = content {
                 text.0 = content;
             }
         }
-        for mut visibility in &mut overlay {
-            *visibility = match dashboard.learn {
-                Learn::Hidden => Visibility::Hidden,
-                Learn::Visible => Visibility::Visible,
+        for (panel, mut visibility) in &mut overlay {
+            *visibility = match panel.0 == dashboard.overlay {
+                false => Visibility::Hidden,
+                true => Visibility::Visible,
             };
         }
+        *assets
+            .get_mut(&canvas.history_geometry)
+            .expect("life history geometry") = match dashboard.overlay {
+            Overlay::History => timeline::draw(&display.history),
+            _ => GizmoAsset::default(),
+        };
         if let Some(frame) = frame {
             let image_version = ImageVersion {
                 display: display.revision,
@@ -479,38 +579,13 @@ pub(super) fn draw(
                 previous.image = Some(image_version);
             }
             let mut geometry = GizmoAsset::default();
-            let capacity = (frame.width * frame.height).max(1) as f32;
-            let history = display.history.iter().collect::<Vec<_>>();
-            for (index, pair) in history.windows(2).enumerate() {
-                let first = [pair[0].cooperators, pair[0].exploiters, pair[0].conditional];
-                let second = [pair[1].cooperators, pair[1].exploiters, pair[1].conditional];
-                for (series, color) in [
-                    Color::srgb(0.19, 0.83, 0.58),
-                    Color::srgb(0.95, 0.38, 0.35),
-                    Color::srgb(0.40, 0.62, 0.98),
-                ]
-                .into_iter()
-                .enumerate()
-                {
-                    let x = |i| {
-                        LEFT + i as f32 / history.len().saturating_sub(1).max(1) as f32 * MAP_WIDTH
-                    };
-                    geometry.line_2d(
-                        Vec2::new(x(index), -397.0 + first[series] as f32 / capacity * 75.0),
-                        Vec2::new(
-                            x(index + 1),
-                            -397.0 + second[series] as f32 / capacity * 75.0,
-                        ),
-                        color,
-                    );
-                }
-            }
-            geometry.line_2d(
-                Vec2::new(LEFT, -398.0),
-                Vec2::new(LEFT + MAP_WIDTH, -398.0),
-                MUTED,
+            timeline::plot(
+                &mut geometry,
+                &display.history,
+                Rect::from_corners(Vec2::new(LEFT, -387.0), Vec2::new(LEFT + MAP_WIDTH, -323.0)),
+                timeline::Plot::Population,
             );
-            if let Some(cell) = dashboard.hover {
+            if let (Some(cell), Overlay::None) = (dashboard.hover, dashboard.overlay) {
                 let grid = Grid::new(frame.width, frame.height);
                 geometry.circle_2d(
                     grid.point(cell),

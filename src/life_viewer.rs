@@ -1,4 +1,6 @@
+mod history;
 mod scene;
+mod timeline;
 mod verification;
 mod worker;
 
@@ -17,7 +19,6 @@ use bevy::{
     winit::{EventLoopProxyWrapper, UpdateMode, WinitSettings, WinitUserEvent},
 };
 use std::{
-    collections::VecDeque,
     sync::{Arc, Mutex, mpsc},
     time::Duration,
 };
@@ -66,9 +67,10 @@ enum MapMode {
     Resources,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum Learn {
-    Hidden,
-    Visible,
+enum Overlay {
+    None,
+    Learn,
+    History,
 }
 #[derive(Clone, Copy)]
 enum Change {
@@ -95,6 +97,8 @@ enum Tool {
     Speed,
     View,
     Learn,
+    History,
+    Export,
     Brush(Brush),
     Radius(Change),
     Rule(Rule, Change),
@@ -107,6 +111,7 @@ enum Control {
     Speed(Speed),
     Rules(LifeRules),
     Paint(BrushStroke),
+    Export,
 }
 struct Request {
     sequence: u64,
@@ -115,7 +120,7 @@ struct Request {
 
 struct Display {
     frame: Option<Arc<LifeFrame>>,
-    history: VecDeque<LifeSummary>,
+    history: history::RunHistory,
     revision: u64,
     acknowledged: u64,
     playback: Playback,
@@ -123,6 +128,8 @@ struct Display {
     rules: LifeRules,
     seed: u64,
     error: Option<String>,
+    last_export: Option<std::path::PathBuf>,
+    export_error: Option<String>,
 }
 
 #[derive(Resource)]
@@ -139,7 +146,7 @@ struct Dashboard {
     brush: Brush,
     radius: u32,
     mode: MapMode,
-    learn: Learn,
+    overlay: Overlay,
     hover: Option<UVec2>,
     painted: Option<UVec2>,
     revision: u64,
@@ -230,7 +237,7 @@ fn setup(
     };
     let data = Arc::new(Mutex::new(Display {
         frame: None,
-        history: VecDeque::new(),
+        history: history::RunHistory::new(launch.scenario.config().clone()),
         revision: 0,
         acknowledged: 0,
         playback: Playback::Paused,
@@ -238,6 +245,8 @@ fn setup(
         rules: launch.scenario.config().rules,
         seed: launch.scenario.config().seed,
         error: None,
+        last_export: None,
+        export_error: None,
     }));
     let (sender, receiver) = mpsc::sync_channel(32);
     commands.insert_resource(Dashboard {
@@ -247,7 +256,7 @@ fn setup(
         brush: Brush::Cooperator,
         radius: 1,
         mode: MapMode::Strategies,
-        learn: Learn::Hidden,
+        overlay: Overlay::None,
         hover: None,
         painted: None,
         revision: 0,
@@ -306,10 +315,19 @@ fn apply(tool: Tool, dashboard: &mut Dashboard) {
             };
         }
         Tool::Learn => {
-            dashboard.learn = match dashboard.learn {
-                Learn::Hidden => Learn::Visible,
-                Learn::Visible => Learn::Hidden,
+            dashboard.overlay = match dashboard.overlay {
+                Overlay::Learn => Overlay::None,
+                _ => Overlay::Learn,
             };
+        }
+        Tool::History => {
+            dashboard.overlay = match dashboard.overlay {
+                Overlay::History => Overlay::None,
+                _ => Overlay::History,
+            };
+        }
+        Tool::Export => {
+            dashboard.send(Control::Export);
         }
         Tool::Brush(brush) => {
             dashboard.brush = brush;
@@ -362,6 +380,8 @@ fn controls(
         (KeyCode::KeyS, Tool::Speed),
         (KeyCode::KeyG, Tool::View),
         (KeyCode::KeyL, Tool::Learn),
+        (KeyCode::KeyH, Tool::History),
+        (KeyCode::KeyE, Tool::Export),
         (KeyCode::Digit1, Tool::Brush(Brush::Cooperator)),
         (KeyCode::Digit2, Tool::Brush(Brush::Exploiter)),
         (KeyCode::Digit3, Tool::Brush(Brush::Conditional)),
@@ -390,13 +410,11 @@ fn controls(
         dashboard.hover = hover;
         dashboard.revision = dashboard.revision.wrapping_add(1);
     }
-    if let (true, Some(point), Learn::Hidden) = (
-        mouse.just_pressed(MouseButton::Left),
-        cursor,
-        dashboard.learn,
-    ) {
+    if let (true, Some(point)) = (mouse.just_pressed(MouseButton::Left), cursor) {
+        let overlay = dashboard.overlay;
         for button in buttons
             .iter()
+            .filter(|button| button.overlay == overlay)
             .filter(|button| button.bounds.contains(point))
         {
             apply(button.tool, &mut dashboard);
@@ -405,9 +423,9 @@ fn controls(
     match (
         mouse.pressed(MouseButton::Left),
         dashboard.hover,
-        dashboard.learn,
+        dashboard.overlay,
     ) {
-        (true, Some(cell), Learn::Hidden) if dashboard.painted != Some(cell) => {
+        (true, Some(cell), Overlay::None) if dashboard.painted != Some(cell) => {
             let stroke = BrushStroke {
                 x: cell.x,
                 y: cell.y,

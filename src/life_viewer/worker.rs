@@ -19,6 +19,10 @@ pub(super) fn run(
     let mut sequence = 0;
     let mut workflow = WorkerState::Active;
     let mut next = Instant::now();
+    data.lock()
+        .expect("life display lock")
+        .history
+        .start(&simulation.snapshot());
     publish(
         &simulation,
         &data,
@@ -44,7 +48,11 @@ pub(super) fn run(
                     }
                     Control::Step => {
                         playback = Playback::Paused;
-                        simulation.advance()?;
+                        let frame = simulation.advance()?;
+                        data.lock()
+                            .expect("life display lock")
+                            .history
+                            .advance(&frame);
                     }
                     Control::Speed(value) => {
                         speed = value;
@@ -53,9 +61,17 @@ pub(super) fn run(
                     Control::Rules(rules) => {
                         simulation.set_rules(rules)?;
                         config.rules = rules;
+                        data.lock()
+                            .expect("life display lock")
+                            .history
+                            .rules(simulation.snapshot().tick, rules);
                     }
                     Control::Paint(stroke) => {
                         simulation.paint(stroke)?;
+                        data.lock()
+                            .expect("life display lock")
+                            .history
+                            .paint(&simulation.snapshot(), stroke);
                     }
                     Control::Reset(seed) => {
                         config.seed = match seed {
@@ -64,7 +80,25 @@ pub(super) fn run(
                         };
                         simulation.reset(LifeScenario::new(config.clone())?)?;
                         playback = Playback::Paused;
-                        data.lock().expect("life display lock").history.clear();
+                        let mut display = data.lock().expect("life display lock");
+                        display.history = history::RunHistory::new(config.clone());
+                        display.history.start(&simulation.snapshot());
+                        display.last_export = None;
+                        display.export_error = None;
+                    }
+                    Control::Export => {
+                        let history = data.lock().expect("life display lock").history.clone();
+                        let result = history.export(&simulation.snapshot(), config.rules, sequence);
+                        let mut display = data.lock().expect("life display lock");
+                        match result {
+                            Ok(path) => {
+                                display.last_export = Some(path);
+                                display.export_error = None;
+                            }
+                            Err(error) => {
+                                display.export_error = Some(format!("Export failed: {error}"))
+                            }
+                        }
                     }
                 }
                 publish(
@@ -84,7 +118,11 @@ pub(super) fn run(
         if let (WorkerState::Active, Playback::Running, true) =
             (&workflow, playback, Instant::now() >= next)
         {
-            simulation.advance()?;
+            let frame = simulation.advance()?;
+            data.lock()
+                .expect("life display lock")
+                .history
+                .advance(&frame);
             publish(
                 &simulation,
                 &data,
@@ -112,16 +150,6 @@ fn publish(
 ) {
     let frame = simulation.snapshot();
     let mut display = data.lock().expect("life display lock");
-    let previous_tick = display.frame.as_ref().map(|previous| previous.tick);
-    match (display.history.is_empty(), previous_tick) {
-        (false, Some(tick)) if tick == frame.tick => (),
-        _ => {
-            display.history.push_back(frame.summary.clone());
-            if display.history.len() > 160 {
-                display.history.pop_front();
-            }
-        }
-    }
     display.frame = Some(Arc::new(frame));
     display.acknowledged = sequence;
     display.playback = playback;
