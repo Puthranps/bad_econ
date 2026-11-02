@@ -1,0 +1,22 @@
+[
+  {
+    "households": 1000,
+    "state_hash_match": true,
+    "readback_match": true,
+    "scenario_hash": "70a766a026ead9a017a7fde9e35554cef2ea3e46efbae3df5036ad4b78250807",
+    "final_state_hash": "212b913a432167e13a78b9df1050b4acf476e8410c159f920cb0716a20a9bf36",
+    "readback_bytes": 100688,
+    "before_median_day_ms": 31.924950000000003,
+    "after_median_day_ms": 39.48055
+  },
+  {
+    "households": 10000,
+    "state_hash_match": true,
+    "readback_match": true,
+    "scenario_hash": "778f4452c37db91242af11b0bdc26f31093fa2c557bc354e02c7047e18baeae0",
+    "final_state_hash": "6f8fbf9a723d0055f23d416fa1c3a1c4c79e6a477783b17345ef5e1e49cceabd",
+    "readback_bytes": 103536,
+    "before_median_day_ms": 57.6071,
+    "after_median_day_ms": 58.4778
+  }
+]

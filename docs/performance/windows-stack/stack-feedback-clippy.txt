@@ -1,0 +1,2 @@
+    Checking bad_econ v0.1.0 (<stack-worktree>)
+    Finished `dev` profile [optimized + debuginfo] target(s) in 9.08s

@@ -1,0 +1,13 @@
+2026-11-02T06:32:30.849412Z  INFO bevy_render::renderer: AdapterInfo { name: "NVIDIA GeForce RTX 3090", vendor: 4318, device: 8708, device_type: DiscreteGpu, device_pci_bus_id: "0000:01:00.0", driver: "NVIDIA", driver_info: "616.56", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }
+2026-11-02T06:32:31.720413Z  INFO bevy_winit::system: Creating new window Spatial industrial economy (65v0)
+2026-11-02T06:32:31.806490Z  INFO bevy_render::batching::gpu_preprocessing: GPU preprocessing is fully supported on this device.
+
+thread 'Compute Task Pool (12)' (48168) panicked at <user>\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\cubecl-wgpu-0.11.3\src\compute\device_poison.rs:42:17:
+wgpu error: Validation Error
+
+Caused by:
+  In Surface::configure
+    Failed to wait for GPU to come idle before reconfiguring the Surface
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Error: viewer exited with 1

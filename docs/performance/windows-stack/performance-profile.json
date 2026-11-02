@@ -1,0 +1,33 @@
+{
+    "measured_at_utc":  "2026-11-02T06:25:21.6329848Z",
+    "executable_sha256":  "bdd263ea5c112ed96e1f75a6e7b35aa2057d81ca2c75bd4dbe48cbf1693bde0c",
+    "households":  100000,
+    "state":  "paused at day 0; default chart; no keyboard or mouse input during sampling",
+    "method":  "Process.TotalProcessorTime deltas; five-second warmup; newly opened viewer window",
+    "samples":  [
+                    {
+                        "sample":  1,
+                        "wall_seconds":  20.001136799999998,
+                        "cpu_seconds":  1.359375,
+                        "single_core_percent":  6.7964886875829986,
+                        "working_set_bytes":  477868032,
+                        "private_bytes":  1299316736
+                    },
+                    {
+                        "sample":  2,
+                        "wall_seconds":  20.009634899999998,
+                        "cpu_seconds":  8.234375,
+                        "single_core_percent":  41.152050205573723,
+                        "working_set_bytes":  529313792,
+                        "private_bytes":  1364471808
+                    },
+                    {
+                        "sample":  3,
+                        "wall_seconds":  20.0036828,
+                        "cpu_seconds":  0.0625,
+                        "single_core_percent":  0.31244246684415533,
+                        "working_set_bytes":  527233024,
+                        "private_bytes":  1363017728
+                    }
+                ]
+}
