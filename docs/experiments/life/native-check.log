@@ -1,0 +1,12 @@
+2026-11-02T09:43:11.076839Z  INFO bevy_render::renderer: AdapterInfo { name: "NVIDIA GeForce RTX 3090", vendor: 4318, device: 8708, device_type: DiscreteGpu, device_pci_bus_id: "0000:01:00.0", driver: "NVIDIA", driver_info: "616.56", backend: Vulkan, subgroup_min_size: 32, subgroup_max_size: 32, transient_saves_memory: Some(false), limit_bucket: None }
+2026-11-02T09:43:11.891940Z  INFO bevy_winit::system: Creating new window Society Life | local rules, living patterns (66v0)
+2026-11-02T09:43:11.966385Z  INFO bevy_render::batching::gpu_preprocessing: GPU preprocessing is fully supported on this device.
+life-check: paused on shared renderer GPU
+life-check: single step tick 1
+life-check: rules changed to regrowth 3
+life-check: painted live exploiter identity 12289
+life-check: same-seed reset seed 42
+life-check: live playback then pause at tick 600
+life-check: 301 whole-run samples, stride 2, natural births 4662, deaths 6790, hungry-agent-ticks 6674, peak 4510
+life-check: history exported target/life/history-42-600-56912-1793612613174113100-9.json
+life-check passed; native frames target/life/ui.ppm + history.ppm; validation target/life/verification.json

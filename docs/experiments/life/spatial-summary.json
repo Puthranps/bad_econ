@@ -1,0 +1,284 @@
+{
+  "device": "NVIDIA GeForce RTX 3090 / Vulkan",
+  "results": [
+    {
+      "case": "baseline",
+      "seed": 42,
+      "ticks": 500,
+      "initial_population": 2128,
+      "final_population": 1117,
+      "peak_population": 3119,
+      "births": 18361,
+      "deaths": 19372,
+      "seconds": 0.2284534,
+      "ticks_per_second": 2188.6301538957177,
+      "initial_spatial": {
+        "largest_same_strategy_component": 11,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.3350357507660878
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 320,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.8891443167305236
+      },
+      "final_summary": {
+        "births": 29,
+        "conditional": 652,
+        "cooperators": 190,
+        "deaths": 28,
+        "energy": 57920,
+        "exploiters": 275,
+        "food": 159828,
+        "hungry": 28,
+        "population": 1117
+      }
+    },
+    {
+      "case": "no_cooperation_benefit",
+      "seed": 42,
+      "ticks": 500,
+      "initial_population": 2128,
+      "final_population": 0,
+      "peak_population": 2492,
+      "births": 686,
+      "deaths": 2814,
+      "seconds": 0.2122873,
+      "ticks_per_second": 2355.298691914212,
+      "initial_spatial": {
+        "largest_same_strategy_component": 11,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.3350357507660878
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 0,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.0
+      },
+      "final_summary": {
+        "births": 0,
+        "conditional": 0,
+        "cooperators": 0,
+        "deaths": 0,
+        "energy": 0,
+        "exploiters": 0,
+        "food": 196608,
+        "hungry": 0,
+        "population": 0
+      }
+    },
+    {
+      "case": "drought",
+      "seed": 42,
+      "ticks": 500,
+      "initial_population": 2128,
+      "final_population": 0,
+      "peak_population": 2469,
+      "births": 602,
+      "deaths": 2730,
+      "seconds": 0.2208088,
+      "ticks_per_second": 2264.402505697237,
+      "initial_spatial": {
+        "largest_same_strategy_component": 11,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.3350357507660878
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 0,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.0
+      },
+      "final_summary": {
+        "births": 0,
+        "conditional": 0,
+        "cooperators": 0,
+        "deaths": 0,
+        "energy": 0,
+        "exploiters": 0,
+        "food": 55396,
+        "hungry": 0,
+        "population": 0
+      }
+    },
+    {
+      "case": "baseline",
+      "seed": 43,
+      "ticks": 500,
+      "initial_population": 2035,
+      "final_population": 1164,
+      "peak_population": 3059,
+      "births": 12510,
+      "deaths": 13381,
+      "seconds": 0.2186866,
+      "ticks_per_second": 2286.376943077445,
+      "initial_spatial": {
+        "largest_same_strategy_component": 15,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.35272459499263625
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 596,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.8970729366602687
+      },
+      "final_summary": {
+        "births": 28,
+        "conditional": 784,
+        "cooperators": 157,
+        "deaths": 25,
+        "energy": 72934,
+        "exploiters": 223,
+        "food": 158948,
+        "hungry": 24,
+        "population": 1164
+      }
+    },
+    {
+      "case": "no_cooperation_benefit",
+      "seed": 43,
+      "ticks": 500,
+      "initial_population": 2035,
+      "final_population": 0,
+      "peak_population": 2366,
+      "births": 626,
+      "deaths": 2661,
+      "seconds": 0.213052,
+      "ticks_per_second": 2346.8449017141356,
+      "initial_spatial": {
+        "largest_same_strategy_component": 15,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.35272459499263625
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 0,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.0
+      },
+      "final_summary": {
+        "births": 0,
+        "conditional": 0,
+        "cooperators": 0,
+        "deaths": 0,
+        "energy": 0,
+        "exploiters": 0,
+        "food": 196608,
+        "hungry": 0,
+        "population": 0
+      }
+    },
+    {
+      "case": "drought",
+      "seed": 43,
+      "ticks": 500,
+      "initial_population": 2035,
+      "final_population": 0,
+      "peak_population": 2351,
+      "births": 572,
+      "deaths": 2607,
+      "seconds": 0.207904,
+      "ticks_per_second": 2404.956133600123,
+      "initial_spatial": {
+        "largest_same_strategy_component": 15,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.35272459499263625
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 0,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.0
+      },
+      "final_summary": {
+        "births": 0,
+        "conditional": 0,
+        "cooperators": 0,
+        "deaths": 0,
+        "energy": 0,
+        "exploiters": 0,
+        "food": 57216,
+        "hungry": 0,
+        "population": 0
+      }
+    },
+    {
+      "case": "baseline",
+      "seed": 44,
+      "ticks": 500,
+      "initial_population": 2073,
+      "final_population": 1841,
+      "peak_population": 2961,
+      "births": 24737,
+      "deaths": 24969,
+      "seconds": 0.2203034,
+      "ticks_per_second": 2269.5972917349436,
+      "initial_spatial": {
+        "largest_same_strategy_component": 12,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.3456833275078644
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 367,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.8352904820766378
+      },
+      "final_summary": {
+        "births": 57,
+        "conditional": 1287,
+        "cooperators": 32,
+        "deaths": 50,
+        "energy": 106957,
+        "exploiters": 522,
+        "food": 134598,
+        "hungry": 47,
+        "population": 1841
+      }
+    },
+    {
+      "case": "no_cooperation_benefit",
+      "seed": 44,
+      "ticks": 500,
+      "initial_population": 2073,
+      "final_population": 0,
+      "peak_population": 2412,
+      "births": 648,
+      "deaths": 2721,
+      "seconds": 0.2161564,
+      "ticks_per_second": 2313.1399301616793,
+      "initial_spatial": {
+        "largest_same_strategy_component": 12,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.3456833275078644
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 0,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.0
+      },
+      "final_summary": {
+        "births": 0,
+        "conditional": 0,
+        "cooperators": 0,
+        "deaths": 0,
+        "energy": 0,
+        "exploiters": 0,
+        "food": 196608,
+        "hungry": 0,
+        "population": 0
+      }
+    },
+    {
+      "case": "drought",
+      "seed": 44,
+      "ticks": 500,
+      "initial_population": 2073,
+      "final_population": 0,
+      "peak_population": 2401,
+      "births": 569,
+      "deaths": 2642,
+      "seconds": 0.2129023,
+      "ticks_per_second": 2348.4950608800377,
+      "initial_spatial": {
+        "largest_same_strategy_component": 12,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.3456833275078644
+      },
+      "final_spatial": {
+        "largest_same_strategy_component": 0,
+        "same_strategy_fraction_of_occupied_neighbor_pairs": 0.0
+      },
+      "final_summary": {
+        "births": 0,
+        "conditional": 0,
+        "cooperators": 0,
+        "deaths": 0,
+        "energy": 0,
+        "exploiters": 0,
+        "food": 56960,
+        "hungry": 0,
+        "population": 0
+      }
+    }
+  ]
+}

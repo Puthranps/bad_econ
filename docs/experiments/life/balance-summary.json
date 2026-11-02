@@ -1,0 +1,350 @@
+[
+  {
+    "case": "balanced_scarcity",
+    "seed": 42,
+    "initial": {
+      "births": 0,
+      "conditional": 691,
+      "cooperators": 740,
+      "deaths": 0,
+      "energy": 38304,
+      "exploiters": 697,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2128
+    },
+    "final": {
+      "births": 34,
+      "conditional": 1209,
+      "cooperators": 220,
+      "deaths": 47,
+      "energy": 114088,
+      "exploiters": 416,
+      "food": 133242,
+      "hungry": 45,
+      "population": 1845
+    },
+    "births": 23527,
+    "deaths": 23810,
+    "ticks_per_second": 1294.4665438649406
+  },
+  {
+    "case": "balanced_abundance",
+    "seed": 42,
+    "initial": {
+      "births": 0,
+      "conditional": 691,
+      "cooperators": 740,
+      "deaths": 0,
+      "energy": 38304,
+      "exploiters": 697,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2128
+    },
+    "final": {
+      "births": 226,
+      "conditional": 2240,
+      "cooperators": 0,
+      "deaths": 166,
+      "energy": 501706,
+      "exploiters": 3733,
+      "food": 161130,
+      "hungry": 0,
+      "population": 5973
+    },
+    "births": 23141,
+    "deaths": 19296,
+    "ticks_per_second": 1739.2889369396446
+  },
+  {
+    "case": "abundant_no_production",
+    "seed": 42,
+    "initial": {
+      "births": 0,
+      "conditional": 691,
+      "cooperators": 740,
+      "deaths": 0,
+      "energy": 38304,
+      "exploiters": 697,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2128
+    },
+    "final": {
+      "births": 291,
+      "conditional": 2136,
+      "cooperators": 4,
+      "deaths": 240,
+      "energy": 568843,
+      "exploiters": 3763,
+      "food": 161496,
+      "hungry": 0,
+      "population": 5903
+    },
+    "births": 22407,
+    "deaths": 18632,
+    "ticks_per_second": 1739.6877399681778
+  },
+  {
+    "case": "no_exploitation",
+    "seed": 42,
+    "initial": {
+      "births": 0,
+      "conditional": 691,
+      "cooperators": 740,
+      "deaths": 0,
+      "energy": 38304,
+      "exploiters": 697,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2128
+    },
+    "final": {
+      "births": 34,
+      "conditional": 1996,
+      "cooperators": 1135,
+      "deaths": 51,
+      "energy": 247136,
+      "exploiters": 972,
+      "food": 62316,
+      "hungry": 21,
+      "population": 4103
+    },
+    "births": 18109,
+    "deaths": 16134,
+    "ticks_per_second": 1696.8859427932234
+  },
+  {
+    "case": "balanced_scarcity",
+    "seed": 43,
+    "initial": {
+      "births": 0,
+      "conditional": 664,
+      "cooperators": 707,
+      "deaths": 0,
+      "energy": 36630,
+      "exploiters": 664,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2035
+    },
+    "final": {
+      "births": 33,
+      "conditional": 925,
+      "cooperators": 56,
+      "deaths": 44,
+      "energy": 70874,
+      "exploiters": 329,
+      "food": 151254,
+      "hungry": 41,
+      "population": 1310
+    },
+    "births": 21720,
+    "deaths": 22445,
+    "ticks_per_second": 1688.212193416445
+  },
+  {
+    "case": "balanced_abundance",
+    "seed": 43,
+    "initial": {
+      "births": 0,
+      "conditional": 664,
+      "cooperators": 707,
+      "deaths": 0,
+      "energy": 36630,
+      "exploiters": 664,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2035
+    },
+    "final": {
+      "births": 244,
+      "conditional": 2153,
+      "cooperators": 3,
+      "deaths": 150,
+      "energy": 570784,
+      "exploiters": 3834,
+      "food": 161232,
+      "hungry": 0,
+      "population": 5990
+    },
+    "births": 23244,
+    "deaths": 19289,
+    "ticks_per_second": 1708.8683087979718
+  },
+  {
+    "case": "abundant_no_production",
+    "seed": 43,
+    "initial": {
+      "births": 0,
+      "conditional": 664,
+      "cooperators": 707,
+      "deaths": 0,
+      "energy": 36630,
+      "exploiters": 664,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2035
+    },
+    "final": {
+      "births": 284,
+      "conditional": 2165,
+      "cooperators": 0,
+      "deaths": 239,
+      "energy": 627786,
+      "exploiters": 3737,
+      "food": 161466,
+      "hungry": 2,
+      "population": 5902
+    },
+    "births": 22333,
+    "deaths": 18466,
+    "ticks_per_second": 1751.4122512688105
+  },
+  {
+    "case": "no_exploitation",
+    "seed": 43,
+    "initial": {
+      "births": 0,
+      "conditional": 664,
+      "cooperators": 707,
+      "deaths": 0,
+      "energy": 36630,
+      "exploiters": 664,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2035
+    },
+    "final": {
+      "births": 56,
+      "conditional": 1983,
+      "cooperators": 1220,
+      "deaths": 35,
+      "energy": 229252,
+      "exploiters": 975,
+      "food": 62184,
+      "hungry": 17,
+      "population": 4178
+    },
+    "births": 19492,
+    "deaths": 17349,
+    "ticks_per_second": 1691.1053944232756
+  },
+  {
+    "case": "balanced_scarcity",
+    "seed": 44,
+    "initial": {
+      "births": 0,
+      "conditional": 682,
+      "cooperators": 656,
+      "deaths": 0,
+      "energy": 37314,
+      "exploiters": 735,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2073
+    },
+    "final": {
+      "births": 43,
+      "conditional": 1165,
+      "cooperators": 406,
+      "deaths": 42,
+      "energy": 131122,
+      "exploiters": 341,
+      "food": 132926,
+      "hungry": 40,
+      "population": 1912
+    },
+    "births": 19076,
+    "deaths": 19237,
+    "ticks_per_second": 1701.5623064472877
+  },
+  {
+    "case": "balanced_abundance",
+    "seed": 44,
+    "initial": {
+      "births": 0,
+      "conditional": 682,
+      "cooperators": 656,
+      "deaths": 0,
+      "energy": 37314,
+      "exploiters": 735,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2073
+    },
+    "final": {
+      "births": 255,
+      "conditional": 2086,
+      "cooperators": 1,
+      "deaths": 166,
+      "energy": 534262,
+      "exploiters": 3889,
+      "food": 161286,
+      "hungry": 3,
+      "population": 5976
+    },
+    "births": 22899,
+    "deaths": 18996,
+    "ticks_per_second": 1727.6689288763623
+  },
+  {
+    "case": "abundant_no_production",
+    "seed": 44,
+    "initial": {
+      "births": 0,
+      "conditional": 682,
+      "cooperators": 656,
+      "deaths": 0,
+      "energy": 37314,
+      "exploiters": 735,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2073
+    },
+    "final": {
+      "births": 283,
+      "conditional": 2031,
+      "cooperators": 3,
+      "deaths": 263,
+      "energy": 602958,
+      "exploiters": 3843,
+      "food": 161466,
+      "hungry": 3,
+      "population": 5877
+    },
+    "births": 22219,
+    "deaths": 18415,
+    "ticks_per_second": 1694.0670721811487
+  },
+  {
+    "case": "no_exploitation",
+    "seed": 44,
+    "initial": {
+      "births": 0,
+      "conditional": 682,
+      "cooperators": 656,
+      "deaths": 0,
+      "energy": 37314,
+      "exploiters": 735,
+      "food": 98304,
+      "hungry": 0,
+      "population": 2073
+    },
+    "final": {
+      "births": 41,
+      "conditional": 2475,
+      "cooperators": 795,
+      "deaths": 33,
+      "energy": 229198,
+      "exploiters": 1110,
+      "food": 54332,
+      "hungry": 15,
+      "population": 4380
+    },
+    "births": 19492,
+    "deaths": 17185,
+    "ticks_per_second": 1667.7584925597957
+  }
+]

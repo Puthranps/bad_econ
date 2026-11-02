@@ -1,0 +1,13 @@
+   Compiling bad_econ v0.1.0 (C:\Users\meepl\code\bad_econ)
+    Finished `test` profile [optimized + debuginfo] target(s) in 50.66s
+     Running tests\life.rs (target\debug\deps\life-3f1dda3b7e5185f2.exe)
+
+running 5 tests
+test gpu_life_birth_collision_has_one_winner_and_transfers_energy_once ... ok
+test gpu_life_exploitation_transfers_energy_from_the_neighbor ... ok
+test gpu_life_replays_births_mutations_and_lineage_across_workgroups ... ok
+test gpu_life_shares_across_toroidal_seams_but_not_distant_cells ... ok
+test gpu_life_starvation_age_and_invalid_controls_are_explicit ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.86s
+

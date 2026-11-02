@@ -1,0 +1,37 @@
+{
+  "checks": [
+    "shared_renderer_gpu",
+    "pause",
+    "single_step",
+    "live_rules",
+    "paint_identity_and_strategy",
+    "manual_paint_excluded_from_natural_totals",
+    "same_seed_reset_clears_history",
+    "resume",
+    "600_live_ticks",
+    "bounded_history_coarsening_preserves_endpoints",
+    "exact_population_accounting",
+    "json_export",
+    "native_map_and_history_screenshots"
+  ],
+  "height": 64,
+  "history_export": "target/life/history-42-600-56912-1793612613174113100-9.json",
+  "history_totals": {
+    "advanced_ticks": 600,
+    "hungry_agent_ticks": 6674,
+    "manual_strokes": 0,
+    "natural_births": 4662,
+    "natural_deaths": 6790,
+    "peak_population": 4510
+  },
+  "population": 0,
+  "sample_count": 301,
+  "sample_stride": 2,
+  "screenshots": [
+    "target/life/ui.ppm",
+    "target/life/history.ppm"
+  ],
+  "seed": 42,
+  "tick": 600,
+  "width": 96
+}
